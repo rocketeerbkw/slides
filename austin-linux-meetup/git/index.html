@@ -66,7 +66,36 @@
 				</section>
 
 				<section>
-					<h2>Branching</h2>
+					<section>
+						<h2>Branching/Merging</h2>
+						<p><q>Branch early, Branch often</q></p>
+						<ul style="width: 50%; float: left;">
+							<li>
+								Branches are cheap!
+								<pre><code>git checkout -b branch</code></pre>
+							</li>
+							<li>Just a pointer to a commit</li>
+							<li>Every new feature should be a branch</li>
+						</ul>
+						<ul>
+							<li>
+								Merging is <i>easy</i>
+								<pre><code>git merge branch</code></pre>
+							</li>
+							<li>
+								Merging Strategies
+								<ul>
+									<li>Fast-Forward</li>
+									<li>Recursive</li>
+									<li>Rebase</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<a href="nvie-branching-model.png"><img src="nvie-branching-model.png" style="height: 500px;" /></a>
+						<p><a href="http://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a></p>
+					</section>
 				</section>
 
 				<section>
@@ -75,7 +104,7 @@
 						<h3>Rebase</h3>
 						<ul>
 							<li>Lets you rewrite history</li>
-							<li>Avoid or force merge commits</li>
+							<li>Avoid/Force merge commits</li>
 						</ul>
 						<p>Before</p>
 						<pre><code>* 7e927c8 - (HEAD, master) Finish docs (1 seconds ago) <Brandon Williams>
