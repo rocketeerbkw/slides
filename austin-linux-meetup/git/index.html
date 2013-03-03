@@ -46,23 +46,36 @@
 				</section>
 
 				<section>
-					<h2>Distributed</h2>
-					<ul>
-						<li>
-							Complete local repository
-							<ul>
-								<li>Everyone has a backup of all your code</li>
-								<li>Commands are super fast</li>
-								<li>Ability to work offline</li>
-							</ul>
-						</li>
-						<li>Flexible Workflows</li>
-					</ul>
-					<p>
-						<a href="workflow-a@2x.png"><img src="workflow-a@2x.png" style="height: 130px; display: inline;" /></a>
-						<a href="workflow-b@2x.png"><img src="workflow-b@2x.png" style="height: 130px; display: inline;" /></a>
-						<a href="workflow-c@2x.png"><img src="workflow-c@2x.png" style="height: 130px; display: inline;" /></a>
-					</p>
+					<section>
+						<h2>Distributed</h2>
+						<ul>
+							<li>
+								Complete local repository
+								<ul>
+									<li>Everyone has a backup of all your code</li>
+									<li>Commands are super fast</li>
+									<li>Ability to work offline</li>
+								</ul>
+							</li>
+							<li>Flexible Workflows</li>
+						</ul>
+						<p>
+							<a href="workflow-a@2x.png"><img src="workflow-a@2x.png" style="height: 130px; display: inline;" /></a>
+							<a href="workflow-b@2x.png"><img src="workflow-b@2x.png" style="height: 130px; display: inline;" /></a>
+							<a href="workflow-c@2x.png"><img src="workflow-c@2x.png" style="height: 130px; display: inline;" /></a>
+						</p>
+					</section>
+					<section>
+						<h2>New Concepts</h2>
+
+						<h3>Staging Area</h3>
+						<p>Changes go into a staging area before being committed. Convenient (commit some changes) but hard to get used to.</p>
+						<p>There are 3+ places for your code. Working directory (not commited), staging area (to be commited), local repo (commited), remote repo (shared).</p>
+
+						<h3>Push/Pull</h3>
+						<p>Committing doesn't means everyone has access to it. You need to push or have others pull your commits.</p>
+						<p>You also need to pull commits before you get access to them.</p>
+					</section>
 				</section>
 
 				<section>
@@ -119,6 +132,35 @@
 					</section>
 					<section>
 						<h2>Bisect</h2>
+						<p><q>When did feature X stop working?</q></p>
+						<p>Specify a good commit and a bad commit, git will do a binary search between the two for the first commit that's bad.</p>
+						<p><pre><code># git bisect HEAD HEAD~7
+# git bisect good
+# git bisect bad</code></pre></p>
+					</section>
+					<section>
+						<h2>Git Hooks</h2>
+						<p>Run scripts before/after git events:</p>
+						<ul>
+							<li>
+								pre-commit
+								<ul>
+									<li>Code linting</li>
+									<li>Enforce coding standards</li>
+								</ul>
+							</li>
+							<li>post-commit</li>
+							<li>post-checkout</li>
+							<li>post-merge</li>
+							<li>
+								post-recieve
+								<ul>
+									<li>Continuous ingegration</li>
+									<li>Automated deploys</li>
+								</ul>
+							</li>
+							<li><a href="http://git-scm.com/book/en/Customizing-Git-Git-Hooks">much more...</a></li>
+						</ul>
 					</section>
 				</section>
 
