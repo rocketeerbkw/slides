@@ -88,7 +88,7 @@
 								<pre><code>git checkout -b branch</code></pre>
 							</li>
 							<li>Just a pointer to a commit</li>
-							<li>Every new feature should be a branch</li>
+							<li style="list-style-type: none;"><img src="branch-all-the-things.jpg" /></li>
 						</ul>
 						<ul>
 							<li>
@@ -134,9 +134,11 @@
 						<h2>Bisect</h2>
 						<p><q>When did feature X stop working?</q></p>
 						<p>Specify a good commit and a bad commit, git will do a binary search between the two for the first commit that's bad.</p>
-						<p><pre><code># git bisect HEAD HEAD~7
-# git bisect good
-# git bisect bad</code></pre></p>
+						<p><pre><code># git bisect start
+# git bisect good HEAD~7
+# git bisect bad HEAD
+
+Bisecting: 3 revisions left to test after this (roughly 2 steps)</code></pre></p>
 					</section>
 					<section>
 						<h2>Git Hooks</h2>
@@ -166,7 +168,22 @@
 
 				<section>
 					<section>
-						<h2>Github</h2>
+						<h2><img class="octocat" style="margin: 0; padding: 0; vertical-align: bottom; height: 75px;" /> Github</h2>
+						<ul style="width: 50%; float: left;">
+							<li>Hosted Git</li>
+							<li>
+								Features
+								<ul>
+									<li>Repo browser</li>
+									<li>Issues</li>
+									<li>Wiki</li>
+									<li>Network/Graphs</li>
+									<li><b>Pull requests</b></li>
+									<li>Github pages</li>
+									<li>Online editor</li>
+								</ul>
+							</li>
+						</ul>
 					</section>
 				</section>
 
@@ -500,6 +517,8 @@ function linkify( selector ) {
 					{ src: '../../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
 					{ src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
 					{ src: '../../reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: '../../js/jquery-1.9.1.min.js', async: true },
+					{ src: '../../js/octodex.js', async: true, callback: function() { octodex.init('.octocat', 100); } }
 					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
 				]
 			});
