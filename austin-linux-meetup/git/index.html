@@ -122,13 +122,13 @@
 							<li>Avoid/Force merge commits</li>
 						</ul>
 						<p>Before</p>
-						<pre><code>* 7e927c8 - (HEAD, master) Finish docs (1 seconds ago) <Brandon Williams>
+						<pre><code class="no-highlight">* 7e927c8 - (HEAD, master) Finish docs (1 seconds ago) <Brandon Williams>
 * 7762c6e - WIP (11 seconds ago) <Brandon Williams>
 * f172078 - WIP (15 seconds ago) <Brandon Williams>
 * bfbe19f - Start working on documentation (33 seconds ago) <Brandon Williams>
 * 4e58868 - first commit (4 minutes ago) <Brandon Williams></code></pre>
 						<p>After</p>
-						<pre><code>* 8381ad8 - (HEAD, master) Finish docs (14 seconds ago) <Brandon Williams>
+						<pre><code class="no-highlight">* 8381ad8 - (HEAD, master) Finish docs (14 seconds ago) <Brandon Williams>
 * bfbe19f - Start working on documentation (5 minutes ago) <Brandon Williams>
 * 4e58868 - first commit (8 minutes ago) <Brandon Williams></code></pre>
 					</section>
@@ -136,9 +136,9 @@
 						<h2>Bisect</h2>
 						<p><q>When did feature X stop working?</q></p>
 						<p>Specify a good commit and a bad commit, git will do a binary search between the two for the first commit that's bad.</p>
-						<p><pre><code># git bisect start
-# git bisect good HEAD~7
-# git bisect bad HEAD
+						<p><pre><code class="no-highlight">git bisect start
+git bisect good HEAD~7
+git bisect bad HEAD
 
 Bisecting: 3 revisions left to test after this (roughly 2 steps)</code></pre></p>
 						<p>Demo if time (remind me!)</p>
@@ -245,7 +245,7 @@ Bisecting: 3 revisions left to test after this (roughly 2 steps)</code></pre></p
 					<section>
 						<h2>Learning Git</h2>
 						<h3>Basic Commands</h3>
-						<pre><code>git init
+						<pre><code class="no-highlight">git init
 git add .
 git status
 git commit -m 'first commit'
