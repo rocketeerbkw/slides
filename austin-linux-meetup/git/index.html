@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Git | Austin Linux Meetup</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../../reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="../../reveal.js/css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="../../reveal.js/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="../../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="../../reveal.js/l../../reveal.js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>Git</h1>
+					<blockquote>Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.</blockquote>
+					<p>
+						<a href="http://git-scm.com/"><img src="git-logo.png" style="width: 50px; vertical-align: middle;" /> http://git-scm.org</a>
+					</p>
+				</section>
+
+				<section>
+					<h2>Preface</h2>
+					<p>Unfortunately there's not enough time to teach you git, but maybe I can persuade you to siwtch anyway.</p>
+				</section>
+
+				<section>
+					<section>
+						<h2>Distributed</h2>
+						<ul>
+							<li>
+								Every repository is a complete copy
+								<ul>
+									<li>Everyone has a backup of all your code</li>
+									<li>Commands are super fast</li>
+									<li>Ability to work offline</li>
+								</ul>
+							</li>
+							<li>Flexible Workflows</li>
+						</ul>
+						<p>
+							<a href="workflow-a@2x.png"><img src="workflow-a@2x.png" style="height: 130px; display: inline;" /></a>
+							<a href="workflow-b@2x.png"><img src="workflow-b@2x.png" style="height: 130px; display: inline;" /></a>
+							<a href="workflow-c@2x.png"><img src="workflow-c@2x.png" style="height: 130px; display: inline;" /></a>
+						</p>
+					</section>
+					<section>
+						<h2>New Concepts</h2>
+
+						<h3>Staging Area</h3>
+						<p>Changes go into a staging area before being committed. Convenient (commit some changes) but hard to get used to.</p>
+						<p>There are 3+ places for your code. Working directory (not commited), staging area (to be commited), local repo (commited), remote repo (shared).</p>
+
+						<h3>Push/Pull</h3>
+						<p>Committing doesn't means everyone has access to it. You need to push or have others pull your commits.</p>
+						<p>You also need to pull commits before you get access to them.</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Branching/Merging</h2>
+						<p><q>Branch early, Branch often</q></p>
+						<ul style="width: 50%; float: left;">
+							<li>
+								Branches are cheap!
+								<pre><code>git checkout -b branch</code></pre>
+							</li>
+							<li>Just a pointer to a commit</li>
+							<li style="list-style-type: none;"><img src="branch-all-the-things.jpg" /></li>
+						</ul>
+						<ul>
+							<li>
+								Merging is <i>easy</i>
+								<pre><code>git merge branch</code></pre>
+							</li>
+							<li>
+								Merging Strategies
+								<ul>
+									<li>Fast-Forward</li>
+									<li>Recursive</li>
+									<li>Rebase</li>
+									<li>Octopus</li>
+									<li>Subtree</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<a href="nvie-branching-model.png"><img src="nvie-branching-model.png" style="height: 500px;" /></a>
+						<p><a href="http://nvie.com/posts/a-successful-git-branching-model/">A successful Git branching model</a></p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Cool Stuff</h2>
+						<h3>Rebase</h3>
+						<ul>
+							<li>Lets you rewrite history</li>
+							<li>Avoid/Force merge commits</li>
+						</ul>
+						<p>Before</p>
+						<pre><code class="no-highlight">* 7e927c8 - (HEAD, master) Finish docs (1 seconds ago) <Brandon Williams>
+* 7762c6e - WIP (11 seconds ago) <Brandon Williams>
+* f172078 - WIP (15 seconds ago) <Brandon Williams>
+* bfbe19f - Start working on documentation (33 seconds ago) <Brandon Williams>
+* 4e58868 - first commit (4 minutes ago) <Brandon Williams></code></pre>
+						<p>After</p>
+						<pre><code class="no-highlight">* 8381ad8 - (HEAD, master) Finish docs (14 seconds ago) <Brandon Williams>
+* bfbe19f - Start working on documentation (5 minutes ago) <Brandon Williams>
+* 4e58868 - first commit (8 minutes ago) <Brandon Williams></code></pre>
+					</section>
+					<section>
+						<h2>Bisect</h2>
+						<p><q>When did feature X stop working?</q></p>
+						<p>Specify a good commit and a bad commit, git will do a binary search between the two for the first commit that's bad.</p>
+						<p><pre><code class="no-highlight">git bisect start
+git bisect good HEAD~7
+git bisect bad HEAD
+
+Bisecting: 3 revisions left to test after this (roughly 2 steps)</code></pre></p>
+						<p>Demo if time (remind me!)</p>
+					</section>
+					<section>
+						<h2>Git Hooks</h2>
+						<p>Run scripts before/after git events:</p>
+						<ul>
+							<li>
+								pre-commit
+								<ul>
+									<li>Code linting</li>
+									<li>Enforce coding standards</li>
+								</ul>
+							</li>
+							<li>post-commit</li>
+							<li>post-checkout</li>
+							<li>post-merge</li>
+							<li>
+								post-recieve
+								<ul>
+									<li>Continuous ingegration</li>
+									<li>Automated deploys</li>
+								</ul>
+							</li>
+							<li><a href="http://git-scm.com/book/en/Customizing-Git-Git-Hooks">much more...</a></li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2><img class="octocat" style="margin: 0; padding: 0; vertical-align: bottom; height: 75px;" /> Github</h2>
+						<ul style="width: 8;%; float: left;">
+							<li>Hosted Git</li>
+							<li>
+								Features
+								<ul>
+									<li>Repo browser</li>
+									<li>Issues</li>
+									<li>Wiki</li>
+									<li>Network/Graphs</li>
+									<li><b>Pull requests</b></li>
+									<li>Github pages</li>
+									<li><b>Online editor</b></li>
+								</ul>
+							</li>
+						</ul>
+						<ul>
+							<li>
+								<i>The</i> place for Open Source
+								<ul>
+									<li><a href="https://github.com/twitter/bootstrap">Bootsrap</a></li>
+									<li><a href="https://github.com/rails/rails">Ruby on Rails</a></li>
+									<li><a href="https://github.com/joyent/node">Node</a></li>
+									<li><a href="https://github.com/symfony/symfony">Symfony</a></li>
+									<li><a href="https://github.com/hakimel/reveal.js">reveal.js</a></li>
+									<li>much more...</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Service Hooks</h2>
+						<ul>
+							<li>
+								Web Hook
+								<ul>
+									<li>Ping URL when pushing to GitHub</li>
+									<li>Continuous ingegration</li>
+									<li>Automated deploys</li>
+								</ul>
+							</li>
+							<li>Basecamp</li>
+							<li>Bugzilla</li>
+							<li>Campfire</li>
+							<li>Email</li>
+							<li>Fisheye</li>
+							<li>IRC</li>
+							<li>Jabber</li>
+							<li><a href="https://github.com/github/github-services">much more...</a></li>
+					</section>
+					<section>
+						<h2>Alternatives</h2>
+						<ul>
+							<li><a href="https://bitbucket.org/">BitBucket</a></li>
+							<li>
+								Gitosis/Gitolite
+								<ul>
+									<li>Access control for bare repositories on a server</li>
+								</ul>
+							</li>
+							<li>
+								Gitweb
+								<ul>
+									<li>Web based repo browser</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Learning Git</h2>
+						<h3>Basic Commands</h3>
+						<pre><code class="no-highlight">git init
+git add .
+git status
+git commit -m 'first commit'
+git checkout -b feature-x
+git add newFile.txt
+git commit -m 'Added feature x'
+git checkout master
+git pull origin master
+git merge feature-x
+git push origin master</code></pre>
+					</section>
+					<section>
+						<h2>Resources</h2>
+						<ul style="width: 50%; float: left;">
+							<li>
+								Books
+									<ul>
+										<li><a href="http://git-scm.com/book">Pro Git</a> - Available free online</li>
+										<li>Pragmatic Guide to Git - Local author <a href="https://twitter.com/tswicegood">@tswicegood</a></li>
+										<li>Version Control with Git</li>
+									</ul>
+							</li>
+							<li>Man pages <pre><code>git help &lt;command&gt;</code></pre></li>
+						</ul>
+						<ul>
+							<li>
+								Tutorials
+								<ul>
+									<li><a href="http://gitimmersion.com/">Git Immersion</a></li>
+									<li><a href="http://gitready.com/">Git Ready</a></li>
+									<li><a href="http://www-cs-students.stanford.edu/~blynn/gitmagic/">Git Magic</a></li>
+									<li><a href="http://pcottle.github.com/learnGitBranching/">Learn Git Branching</a></li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h2>MISC</h2>
+					<ul style="width: 55%; float: left;">
+						<li><a href="http://git-scm.com/about/info-assurance">Cryptographically secure</a></li>
+						<li>Commits: <q>Take chances, make mistakes, get messy!</q></li>
+						<li>git (log|diff|stash|blame|tag|svn)</li>
+						<li><a href="http://mercurial.selenic.com/">Mercurial</a> (Hg)</li>
+						<li>
+							Links
+							<ul>
+								<li><a href="http://ndpsoftware.com/git-cheatsheet.html">Git Cheatsheet</a></li>
+								<li><a href="http://gitref.org/">Git Reference</a></li>
+								<li><a href="http://marklodato.github.com/visual-git-guide/index-en.html">Visual Git Guide</a></li>
+								<li>Git (<a href="http://git-scm.com/documentation/external-links">Un</a>)<a href="http://git-scm.com/documentation">official</a> Docs</li>
+							</ul>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							GUI
+							<ul>
+								<li><a href="https://code.google.com/p/tortoisegit/">Tortoise Git</a>  (Win)</li>
+								<li><a href="http://www.git-tower.com/">Git Tower</a>  (Mac)</li>
+								<li>Github (<a href="http://windows.github.com/">Win</a>) (<a href="http://mac.github.com/">Mac</a>)</li>
+								<li><a href="https://www.kernel.org/pub/software/scm/git/docs/gitk.html">Gitk</a>/<a href="https://www.kernel.org/pub/software/scm/git/docs/git-gui.html">Git Gui</a> (All)</li>
+								<li><a href="http://www.syntevo.com/smartgithg/index.html">Smart Git</a> (All)</li>
+								<li><a href="http://git-scm.com/downloads/guis">more...</a></li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Questions?</h2>
+					<p>
+						Brandon Williams<br />
+						<a href="https://twitter.com/rocketeerbkw">@rocketeerbkw</a><br />
+						<a href="mailto:rocketeerbkw@gmail.com">rocketeerbkw@gmail.com</a><br />
+						<a href="http://rocketeerbkw.com">rocketeerbkw.com</a>						
+					</p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../../reveal.js/lib/js/head.min.js"></script>
+		<script src="../../reveal.js/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: '../../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../../js/jquery-1.9.1.min.js', async: true },
+					{ src: '../../js/octodex.js', async: true, callback: function() { octodex.init('.octocat', 100); } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
