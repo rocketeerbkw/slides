@@ -131,11 +131,11 @@
                 <li><a href="http://www.raspbmc.com/download/">RaspBMC UI Installer</a></li>
               </ul>
             </p>
-              <pre style="word-wrap: initial;"><code>~ $ wget http://downloads.raspberrypi.org/images/raspbian/2012-12-16-wheezy-raspbian/2012-12-16-wheezy-raspbian.zip
-~ $ unzip ~/2012-12-16-wheezy-raspbian.zip
-~ $ umount /dev/sdd1
-~ $ dd bs=4M if=~/2012-12-16-wheezy-raspbian.img of=/dev/sdd
-~ $ sudo sync</code></pre>
+              <pre style="word-wrap: initial;"><code class="no-highlight">wget http://downloads.raspberrypi.org/images/raspbian/2012-12-16-wheezy-raspbian/2012-12-16-wheezy-raspbian.zip
+unzip ~/2012-12-16-wheezy-raspbian.zip
+umount /dev/sdd1
+dd bs=4M if=~/2012-12-16-wheezy-raspbian.img of=/dev/sdd
+sudo sync</code></pre>
               </ul>
             </section>
             <section>
@@ -174,25 +174,25 @@
           <section>
             <div class="block">
               <strong>Python</strong>
-              <pre style="word-wrap: initial;"><code>import RPi.GPIO as GPIO
+              <pre style="word-wrap: initial;"><code class="language-python">import RPi.GPIO as GPIO
 GPIO.setup(7, GPIO.OUT)
 GPIO.output(7, True)
 GPIO.output(7,False)</code></pre>
               <strong>Bash (everything is a file)</strong>
-              <pre style="word-wrap: initial;"><code>sudo su -
-echo "4" > /sys/class/gpio/export
-echo "4" > /sys/class/gpio/export
-echo "out" > /sys/class/gpio/gpio4/direction
-echo "1" > /sys/class/gpio/gpio4/value
-echo "0" > /sys/class/gpio/gpio4/value
-echo "0" > /sys/class/gpio/export
-echo "in" > /sys/class/gpio/gpio0/direction
+              <pre style="word-wrap: initial;"><code class="no-highlight">sudo su -
+echo "4" &gt; /sys/class/gpio/export
+echo "4" &gt; /sys/class/gpio/export
+echo "out" &gt; /sys/class/gpio/gpio4/direction
+echo "1" &gt; /sys/class/gpio/gpio4/value
+echo "0" &gt; /sys/class/gpio/gpio4/value
+echo "0" &gt; /sys/class/gpio/export
+echo "in" &gt; /sys/class/gpio/gpio0/direction
 cat /sys/class/gpio/gpio0/value</code></pre>
             </div>
             <div class="block">
               <strong>C (with wiringPi library)</strong>
-              <pre><code>#include <wiringPi.h>
-#include <stdio.h>
+              <pre><code class="language-c">#include &lt;wiringPi.h&gt;
+#include &lt;stdio.h&gt;
  
 int main (void)
 {
@@ -270,11 +270,17 @@ int main (void)
       </div>
     </div>
 
+    <script src="../../reveal.js/lib/js/head.min.js"></script>
     <script src="../../reveal.js/js/reveal.js"></script>
     <script>
       Reveal.initialize({
-        controls: true,
-        progress: false
+        history: true,
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
       });
     </script>
   </body>
