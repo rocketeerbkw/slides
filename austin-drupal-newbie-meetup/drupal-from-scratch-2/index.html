@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Lesson 2 - Intro, installation, configuration. | Drupal From Scratch | Austin Drupal Newbie Meetup</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../../reveal.js/css/reveal.min.css">
+    <link rel="stylesheet" href="../../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal.js/lib/css/zenburn.css">
+
+    <style type="text/css">
+      .twitter-tweet {
+        display: inline-block !important;
+      }
+    </style>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <h1>Drupal From Scratch Lesson 2</h1>
+          <p><br></p>
+          <p>Intro, installation, configuration.</p>
+          <p><br></p>
+          <p><br></p>
+          <p><br></p>
+          <p><br></p>
+          <p>Austin Drupal Newbies Meetup</p>
+          <p>2013 Edition</p>
+        </section>
+
+        <section>
+          <h2>Drupal?</h2>
+          <ul>
+            <li>Free, open-source CMS+ (Content Management System)</li>
+            <li>Moduler framework for building websites</li>
+            <li>Runs on standard/cheap LAMP (Linux, Apache, MySQL, PHP) hosting</li>
+            <li>Powers small and large websites from you're moms blog to whitehouse.gov</li>
+            <li>Not limited to "standard" websites: Desktop, mobile, API all possible</li>
+            <li>Can be hard to learn</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Installation</h2>
+          <p>Quick and easy browser based installation.</p>
+          <ol>
+            <li>
+              Get a hosting account (and domain if necessary)
+              <ul>
+                <li>Hostgator, Dreamhost, Bluehost, A Small Orange</li>
+                <li>XAMPP, WAMPP, Acquia Dev Desktop</li>
+              </ul>
+            </li>
+            <li>Download <a href="https://drupal.org/start">lastest stable release</a> of Drupal.</li>
+            <li>Upload to host and extract files (or extract files to local computer if using *AMPP)</li>
+            <li>Create a database (phpmyadmin)</li>
+            <li>Run yourdomain.com/install.php (pick standard install profile)</li>
+          </ol>
+        </section>
+
+        <section>
+          <section>
+            <h2>Drupalingo</h2>
+            <h3>Content (formally Node)</h3>
+            <ul>
+              <li>Every individual piece of content</li>
+              <li>Many different Content Types (page, article, story)</li>
+              <li>Can create your own Content Types</li>
+              <li>Structured data</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Theme</h3>
+            <ul>
+              <li>Defines the look and feel of website</li>
+              <li>Can have many installed, users may pick their own</li>
+              <li>
+                Defines what Regions are available to put Blocks
+                <ul>
+                  <li>Regions help define layout (sidebar, header, footer, etc)</li>
+                  <li>Regions surround Content</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Block</h3>
+            <ul>
+              <li>Small, contained "content." Could be Content, menus, forms, etc</li>
+              <li>Modules may provide blocks or you can create your own</li>
+              <li>Blocks get assigned to Regions. Can controll which pages to show on and who can see them</li>
+              <li>Single block can only be in one region</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Menu</h3>
+            <ul>
+              <li>Ordered, hierarchical list of links</li>
+              <li>Menus and links can be created or provided</li>
+              <li>Can move links from Menu to Menu</li>
+              <li>Menus become Blocks which can be put into Regions</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Taxonomy</h3>
+            <blockquote class="twitter-tweet"><p>Philosophical clarification for Drupal devs: Taxonomy isn’t how you organize things. How you organize things *is taxonomy*.</p>&mdash; Jeff Eaton (@eaton) <a href="https://twitter.com/eaton/status/307138398152445952">February 28, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <ul>
+              <li>A way to organize your content</li>
+              <li>Taxonomy is a bunch of Vocabularies with a bunch of their own Terms</li>
+              <li>Vocabulary can be anything (blog tags, site section, organization owner)</li>
+              <li>Terms can also be anything. Can be created on the fly (tags) or set in stone</li>
+              <li>Provides automatic lists of Content with a Term</li>
+            </ul>
+          </section>
+
+          <section>
+            <h3>Module</h3>
+            <ul>
+              <li>A contained set of functionality that can be installed/uninstalled, enabled/disabled at will</li>
+              <li>Many modules come with Drupal by default (called Core modules)</li>
+              <li>Many more module available to download, for free, from https://drupal.org/project/modules</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Modules &amp; Themes</h2>
+            <ol>
+              <li>
+                Download from project page
+                <ul>
+                  <li>Read project description to see what is recommended version</li>
+                  <li>Generally, lastest stable release is correct</li>
+                  <li>Version numbers in form of core.version-module.version</li>
+                  <li>For Drupal 7 you want 7.x-x.x</li>
+                </ul>
+              </li>
+              <li>Extract and upload to sites/all/modules or sites/all/themes</li>
+              <li>Enable at admin/modules or admin/appearance</li>
+            </ol>
+          </section>
+          <section>
+            <h2>Useful Modules</h2>
+            <ul>
+              <li>Admin Menu</li>
+              <li>Module Filter</li>
+              <li>Backup &amp; Migrate</li>
+              <li>Advanced Help</li>
+              <li>Global Redirect</li>
+              <li>Google Analytics</li>
+              <li>Path Auto</li>
+              <li>SEO Checklist</li>
+              <li>Views</li>
+            </ul> 
+          </section>
+        </section>
+        
+        <section>
+          <h2>Demo</h2>
+          <ul>
+            <li>Where to find common configuration</li>
+            <li>Where to find module configuration</li>
+            <li>etc.</li>
+          </ul>
+        </section>
+        
+        <section>
+          <h2>Questions?</h2>
+          <p>
+            Brandon Williams<br />
+            <a href="https://twitter.com/rocketeerbkw">@rocketeerbkw</a><br />
+            <a href="mailto:rocketeerbkw@gmail.com">rocketeerbkw@gmail.com</a><br />
+            <a href="http://rocketeerbkw.com">rocketeerbkw.com</a>            
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../reveal.js/js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        theme: 'beige', // available themes are in /css/theme
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
