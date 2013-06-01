@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>TXLF 2013 Raspberry Pi Lightning Talk</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../../reveal.js/css/reveal.min.css">
+    <link rel="stylesheet" href="../../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal.js/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+      section .block {
+        float: left;
+        width: 50%;
+        text-align: left;
+      }
+
+      ul.small li {
+        font-size: 0.6em;
+        line-height: 1.2em;
+        vertical-align: top;
+      }
+
+      .reveal .roll {
+        vertical-align: baseline;
+      }
+
+      section .advice {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        border: 1px dashed #13daec;
+        color: #13daec;
+        -webkit-border-radius: 10px;
+                border-radius: 10px;
+        background-clip: padding-box;
+        -webkit-transform: rotate(30deg); 
+           -moz-transform: rotate(30deg); 
+            -ms-transform: rotate(30deg); 
+             -o-transform: rotate(30deg); 
+                transform: rotate(30deg); 
+      }
+
+      .p1 .reveal .state-background {
+        background: url(raspberry-pi-intro-640x420.jpg) no-repeat;
+        background-size: cover;
+      }
+      .p1 .reveal blockquote {
+        background: rgba(0, 0, 0, 0.8);
+      }
+    </style>
+    
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section data-state="p1">
+          <h1>Raspberry Pi</h1>
+          <blockquote>The Raspberry Pi is a credit-card sized computer that
+            plugs into your TV and a keyboard. It’s a capable little PC which
+            can be used for many of the things that your desktop PC does, like
+            spreadsheets, word-processing and games. It also plays
+            high-definition video. We want to see it being used by kids all
+            over the world to learn programming.</blockquote>
+          <small><a href="http://www.raspberrypi.org/faqs">http://www.raspberrypi.org/faqs</a></small><br />
+          <small>Image Source: <a href="http://arstechnica.com/information-technology/2012/12/10-raspberry-pi-creations-that-show-how-amazing-the-tiny-pc-can-be/">http://arstechnica.com/information-tech...</a></small>
+        </section>
+        <section>
+          <h2>Specs</h2>
+          <ul style="margin-bottom: 10px;">
+            <li>Broadcom BCM2835 SoC
+              <ul>
+                <li>CPU: 700 Mhz AMR11</li>
+                <li>GPU: OpenGL ES 2.0, 1080p H.264 encode/decode</li>
+              </ul>
+            </li>
+            <li>1 Composite Video, 1 HDMI</li>
+            <li>GPIO, SPI, I<sup>2</sup>C, I<sup>2</sup>S, UART</li>
+          </ul>
+          <div class="block">
+            <h3>Model A ($25)</h3>
+            <ul>
+              <li>256 MiB RAM</li>
+              <li>1 USB</li>
+              <li>No Networking</li>
+            </ul>
+          </div>
+          <div class="block">
+            <h3>Model B ($35)</h3>
+            <ul>
+              <li>512 MiB RAM</li>
+              <li>2 USB, Integrated USB Hub</li>
+              <li>10/100 Wired Ethernet</li>
+            </ul>
+          </div>
+          <div class="advice">Buy the Model B</div>
+        </section>
+        <section>
+          <h2>OS</h2>
+          <strong style="display: block">Official from <a href="http://www.raspberrypi.org/downloads">raspberrypi.org</a></strong>
+          <ul>
+            <li>Raspbian Wheezy <a href="http://www.raspbian.org">raspbian.org</a>
+              <ul>
+                <li>"Soft Float" available if you want to run Java</li>
+              </ul>
+            </li>
+            <li>Arch Linux ARM, Pidora, RISC OS</li>
+          </ul>
+          <strong style="display: block">Unofficial</strong>
+          <ul>
+            <li><a href="http://learn.adafruit.com/adafruit-raspberry-pi-educational-linux-distro/">Occidentallis</a>: Raspbian + GPIO, I<sup>2</sup>C, etc</li>
+            <li><a href="http://www.raspbmc.com/">RaspBMC</a>: XBMC port</li>
+            <li><a href="http://rasplex.com/">RasPlex</a></li>
+            <li>More at <a href="http://elinux.org/RPi_Distributions">http://elinux.org/RPi_Distributions</a></li>
+          </ul>
+          <div class="advice">Go with Raspbian</div>
+        </section>
+        <section>
+            <section>
+              <h2>Getting Started</h2>
+              <h3>Buy</h3>
+              <div class="block">
+                <strong style="display: block">"Official" Distributors</strong>
+                <ul>
+                  <li><a href="http://www.newark.com">Newark.com</a></li>
+                  <li><a href="http://www.alliedelec.com/">Allied Electronics</a></li>
+                </ul>
+                <strong style="display: block">Other Options</strong>
+                <ul>
+                  <li><a href="https://www.adafruit.com/category/105">Adafruit.com</a></li>
+                  <li><a href="https://www.sparkfun.com/categories/233/">Sparkfun.com</a></li>
+                </ul>
+              </div>
+              <div class="block">
+                <ul class="small">
+                  <li>Raspberry Pi</li>
+                  <li>Power Supply: 5v 1A wall wort</li>
+                  <li>USB A -> USB B Micro</li>
+                  <li>SD Card: 4 Gb Class 4</li>
+                  <li>SD Card Reader</li>
+                  <li>Powered USB Hub (<a href="http://elinux.org/RPi_VerifiedPeripherals#Powered_USB_Hubs">verified hubs</a>)</li>
+                  <li>USB WiFi (<a href="http://elinux.org/RPi_VerifiedPeripherals#USB_Wi-Fi_Adapters">verified cards</a>)</li>
+                  <li>USB Keyboard & Mouse</li>
+                  <li>RCA or HDMI Cable (HDMI -> DVI)</li>
+                  <li>3.5mm Audio -> RCA Adapter</li>
+                  <li>IR Remote? Web Cam? Etc.</li>
+                  <li>Breadboard, ICs, resistors, LEDs, wire, switches, sensors, etc</li>
+                </ul>
+              </div>
+              <div class="advice">Budget for<br />some "extras"</div>
+            </section>
+            <section>
+              <h3>Install (<a href="http://elinux.org/RPi_Easy_SD_Card_Setup">Setup Guides</a>)</h3>
+              <p>
+              <ul>
+                <li><a href="http://zenit.senecac.on.ca/wiki/index.php/Raspberry_Pi_Fedora_Remix_Installation#SD_Card_Installation_Using_the_Installer">Fedora ARM Installer</a></li>
+                <li><a href="http://www.berryterminal.com/doku.php/berryboot">BerryBoot Installer</a></li>
+                <li><a href="https://launchpad.net/win32-image-writer/+download">Win32DiskImager</a></li>
+                <li><a hreg="https://alltheware.wordpress.com/2012/12/11/easiest-way-sd-card-setup/">RPi-sd card builder (Mac)</a></li>
+                <li><a href="http://www.raspbmc.com/download/">RaspBMC UI Installer</a></li>
+              </ul>
+            </p>
+              <pre style="word-wrap: initial;"><code class="no-highlight">wget http://downloads.raspberrypi.org/images/raspbian/2012-12-16-wheezy-raspbian/2012-12-16-wheezy-raspbian.zip
+unzip ~/2012-12-16-wheezy-raspbian.zip
+umount /dev/sdd1
+dd bs=4M if=~/2012-12-16-wheezy-raspbian.img of=/dev/sdd
+sudo sync</code></pre>
+              </ul>
+              <div class="advice">BerryBoot is<br>kind of awesome</div>
+            </section>
+            <section>
+              <h3>Configure</h3>
+              <div class="block">
+                <ul>
+                  <li>- First run setup guides; Timezone (<strong>America/Chicago</strong>), locale (<strong>en_US.UTF-8</strong>), keyboard, resolution, overclock, etc</li>
+                  <li>- /boot/config.txt (<a href="http://elinux.org/RPi_Configuration">Docs</a>)</li>
+                  <li>- sudo raspi-config</li>
+                </ul>
+              </div>
+              <div class="block">
+                <ul>
+                  <li>No HDMI output: <code>hdmi_safe=1</code></li>
+                  <li><a href="http://elinux.org/RPi_Peripherals#Wireless:_TP-Link_TL-WN722N_USB_wireless_adapter_.28Debian_6.29">No WiFi</a>
+                    <ol>
+                      <li>Check <a href="http://elinux.org/RPi_VerifiedPeripherals#USB_Wi-Fi_Adapters">hardware support</a></li>
+                      <li>Download drivers (links available at above link)</li>
+                      <li>Install and configure everything on CLI</li>
+                    </ol>
+                  </li>
+                </ul>
+              </div>
+              <div class="advice">RTFM</div>
+            </section>
+        </section>
+        <section>
+          <h2>GPIO</h2>
+          <img src="gpios.png" alt="GPIO Pin Layout" style="float: left;" />
+          <ul>
+            <li>Up to 17 GPIO pins</li>
+            <li>0 analog pins (no onboard ADC)</li>
+            <li>Control using Python, Perl, Bash, <br>C, C#, Node.js, Ruby, Java, <a href="https://code.google.com/p/webiopi/">WebIOPi</a><br> (others to come?)</li>
+          </ul><br><br>
+          <p>Check your board revision as the GPIO layout has changed a bit! Rev 2 also added some extra GPIO pins</p>
+          <div class="advice">Don't confuse<br>your pins!</div>
+        </section>
+        <section>
+          <h2>Resources</h2>
+          <div class="block">
+            <a href="http://www.raspberrypi.org/">www.raspberrypi.org</a><br>
+            <a href="http://elinux.org/RPi_Hub">elinux.org/RPi_Hub</a><br>
+            <a href="http://www.raspbian.org/">www.raspbian.org/</a><br>
+            <a href="http://www.raspbmc.com/">www.raspbmc.com/</a><br>
+            <a href="http://www.jeremymorgan.com/tutorials/raspberry-pi/how-to-raspberry-pi-web-server/">RPi Webserver</a><br>
+            <a href="http://pipress.vo3.net/?p=6">Wordpress on RPi</a><br>
+            <a href="http://pipress.vo3.net/?p=16">RPi Survives HN</a><br>
+            <a href="http://pingbin.com/2012/12/30-cool-ideas-raspberry-pi-project/">40+ Cool Ideas for RPi</a><br>
+          </div>
+          <div class="block">
+            <a href="http://garmoncheg.blogspot.com/2012/11/time-capsule-for-25.html">Time Capsule for $25</a><br>
+            <a href="http://bendyworks.com/geekville/lab_projects/2012/11/getting-plan-9-running-on-the-raspberry-pi">Running Plan 9 on RPi</a><br>
+            <a href="http://reviews.cnet.co.uk/desktops/25-fun-things-to-do-with-a-raspberry-pi-50009851/">25 fun things to do</a><br>
+            <a href="http://downloads.raspberrypi.org/Raspberry_Pi_Education_Manual.pdf">RPi Education Manual (PDF)</a><br>
+            <a href="http://arstechnica.com/information-technology/2012/12/10-raspberry-pi-creations-that-show-how-amazing-the-tiny-pc-can-be/">10 Amazing RPi Creations</a><br>
+            <a href="http://raspberrypihacks.com/">raspberrypihacks.com/</a><br>
+            <a href="http://www.hanselman.com/blog/ManyRaspberryPiProjectsHowCanYouNotLoveATinyComputer.aspx">How can you not love a tiny computer?</a><br>
+            <a href="http://blog.makezine.com/2013/04/14/47-raspberry-pi-projects-to-inspire-your-next-build/">47 Projects to inspire your next build</a>
+          </div>
+        </section>
+        <section>
+          <h2>Brandon Williams</h2>
+          <p>
+            <a href="http://twitter.com/rocketeerbkw">@rocketeerbkw</a><br>
+            <a href="mailto:rocketeerbkw@gmail.com">rocketeerbkw@gmail.com</a><br>
+            <a hreg="http://rocketeerbkw.com">rocketeerbkw.com</a><br>
+          </p>
+        </section>
+      </div>
+    </div>
+
+    <script src="../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../reveal.js/js/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        history: true,
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+      });
+    </script>
+  </body>
+</html>
