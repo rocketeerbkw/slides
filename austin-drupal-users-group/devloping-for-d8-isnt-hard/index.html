@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Developing for Drupal 8 isn't hard!</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../../reveal.js/css/reveal.min.css">
+    <link rel="stylesheet" href="../../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal.js/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <style type="text/css">
+      section .before,
+      section .after {
+        width: 48%;
+        float: left;
+        margin-right: 1%;
+      }
+      .before pre,
+      .after pre {
+        margin: 0;
+        width: 100%;
+      }
+      section .block {
+        float: left;
+        width: 50%;
+        text-align: left;
+      }
+      ul.small li {
+        font-size: 0.6em;
+        line-height: 1.2em;
+        vertical-align: top;
+      }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="../../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <h2>Devloping for Drupal 8 isn't hard!</h2>
+          <p class="fragment">...probably</p>
+          <p><a href="http://rocketeerbkw.github.io/slides/austin-drupal-users-group/developing-for-d8-isnt-hard/">http://rocketeerbkw.github.io/slides/austin-drupal-users-group/developing-for-d8-isnt-hard/</a></p>
+        </section>
+
+        <section>
+          <h2>Disclaimer</h2>
+          <p>These are my opinions and I may not be right.<br>I apologize if I get ranty.</p>
+          <p>Example code here is not complete.</p>
+        </section>
+
+        <section>
+          <h2>PSA</h2>
+          <p>Stop calling Drupal 8 hard!</p>
+          <p>This "marketing" is turning away people before they get a chance to see to see for themselves.</p>
+
+          <aside class="notes">
+            I'm a little conflicted on terminology here. I don't want to make you feel like you're dumb if you don't get it.
+            But I also feel like everyone saying it's hard is disengenuous. My goal is to have you walk away thinking "Ya, I can do that."
+          </aside>
+        </section>
+
+        <section>
+          <h2>What's Changed?</h2>
+          <p>Everything... and nothing. Major Drupal concepts haven't changed, they've just moved around or have a different interface.</p>
+          <p>There are some new things to get familiar with too.</p>
+
+          <aside class="notes">
+            The Drupal you know and love has gottem some UI love but you're still building content types with fields and views.
+            Things are still entities, but they're more flexible. Blocks and and Form API are mostly the same with some extra bits.
+            Menu system and CMI are totally different, but follow same concepts.
+          </aside>
+        </section>
+
+        <section>
+          <section>
+            <h2>Blocks</h2>
+            <div class="before">
+              <small>MODULE.module</small>
+              <pre><code class="language-php" data-trim contenteditable>
+function MODULE_block_info() {
+  $blocks = array();
+
+  $blocks['MODULE_block_1'] = array(
+    'info' => 'Module Block 1',
+  );
+
+  return $blocks;
+}
+              </code></pre>
+              <pre><code class="language-php" data-trim contenteditable>
+function MODULE_block_view($delta) {
+  $block = array();
+
+  switch ($delta) {
+    case 'MODULE_block_1';
+      $block['subject'] = t('Block 1');
+      $block['content'] = t('Content!');
+  }
+
+  return $block;
+}
+              </code></pre>
+              <pre><code class="language-php" data-trim contenteditable>
+function MODULE_block_configure() {}
+function MODULE_block_save() {}
+              </code></pre>
+            </div>
+            <div class="after">
+              <small>src/Plugin/Block/Block1.php</small>
+              <pre><code class="language-php" data-trim contenteditable>
+namespace Drupal\MODULE\Plugin\Block;
+use Drupal\Core\Block\BlockBase;
+
+/**
+ * @Block(
+ *   id = "MODULE_block_1",
+ *   admin_label = @Translation("Module Block 1")
+ * )
+ */
+class Block1 extends BlockBase {
+  public function build() {
+    return array(
+      '#markup' => t('Content!');
+    );
+  }
+}
+              </code></pre>
+              <pre><code class="language-php" data-trim contenteditable>
+function blockForm() {}
+function blockSubmit() {}
+function blockAccess() {}
+function defaultConfiguration() {}
+              </code></pre>
+            </div>
+
+            <aside class="notes">
+              On the left is a D7 block, on the right is D8. Both provide the same, albeit minimalist block. ** Point out where the _info() stuff is
+              and where the _view() stuff is ** Imagine having to define multiple blocks, this quickly gets unweildy in D7. All your blocks are in one
+              file, in two functions. If you need duplicate blocks you have to copy/paste the code. If you have complicated business logic it becomes
+              hard to read. In D8, each block is defined as a plugin, in it's own file. Duplicate blocks can be handled with derivitaves that provide a
+              default config and an instance config.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Plugins</h2>
+            <p>... are small pieces of functionality that are swappable.</p>
+            <div class="block">
+              <ul>
+                <li>Modules can provide plugins of type X or say they accept plugins of type Y.</li>
+                <li>Metadata provided by annotations.</li>
+                <li>hook_*_info now mostly plugins.</li>
+              </ul>
+            </div>
+            <div class="block">
+              <ul>
+                <li>Blocks</li>
+                <li>Field Formatters, Widgets</li>
+                <li>Views</li>
+                <li>Actions &amp; Conditions</li>
+                <li>Routing (optional)</li>
+              </ul>
+            </div>
+
+            <aside class="notes">
+              A new Drupal concept (design pattern) you'll see repeated frequently.
+              There are many core plugin types and this is flexible enough that many
+              contrib modules can/will implement their own plugin types. Allows simple
+              and complex use cases (derivatives).
+            </aside>
+          </section>
+          <section>
+            <h2>Plugins</h2>
+            <pre><code class="language-php" style="max-height: 100%;" data-trim contenteditable>
+namespace Drupal\user\Plugin\Field\FieldFormatter;
+
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\FormatterBase;
+
+/**
+ * @FieldFormatter(
+ *   id = "author",
+ *   label = @Translation("Author"),
+ *   description = @Translation("Display the referenced author user entity."),
+ *   field_types = {
+ *     "entity_reference"
+ *   }
+ * )
+ */
+class AuthorFormatter extends FormatterBase {
+  public function viewElements(FieldItemListInterface $items) {}
+  public static function isApplicable(FieldDefinitionInterface $field_definition) {}
+}
+            </code></pre>
+          </section>
+          <section>
+            <h2>Plugins</h2>
+<pre><code class="language-php" data-trim contenteditable>
+namespace Drupal\user\Plugin\Validation\Constraint;
+
+use Symfony\Component\Validator\Constraint;
+
+/**
+ * Checks if a user's email address is unique on the site.
+ *
+ * @Plugin(
+ *   id = "UserMailUnique",
+ *   label = @Translation("User email unique", context = "Validation")
+ * )
+ */
+class UserMailUnique extends Constraint {
+  public $message = 'The email address %value is already taken.';
+  public function validatedBy() {}
+}
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Events</h2>
+            <div class="before">
+              <small>MODULE.module</small>
+              <pre><code class="language-php" data-trim contenteditable>
+function hook_boot() {
+  // Do stuff on every page load
+}
+
+function hook_init() {
+  // Do stuff on every non-cached page load
+}
+              </code></pre>
+            </div>
+            <div class="after">
+              <small>MODULE.services.yml</small>
+              <pre><code class="language-yaml" data-trim contenteditable>
+services:
+  MODULE.MODULE_subscriber:
+    class: Drupal\MODULE\MODULESubscriber
+    tags:
+      - { name: 'event_subscriber' }
+              </code></pre>
+            </div>
+            <small>src/MODULESubscriber.php</small>
+            <pre><code class="language-php" data-trim contenteditable>
+namespace Drupal\MODULE;
+
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+class MODULESubscriber implements EventSubscriberInterface {
+  public function onLoad(GetResponseEvent $event) {
+    // Do stuff on each page load
+  }
+
+  static function getSubscribedEvents() {
+    $events[KernelEvents::REQUEST][] = array('onLoad');
+    return $events;
+  }
+}
+            </code></pre>
+          </section>
+          <section>
+            <h2>Kernel Events</h2>
+            <ul>
+              <li>Request
+                <ul class="small">
+                  <li>hook_init</li>
+                  <li>hook_boot</li>
+                  <li>hook_url_inbound_alter</li>
+                  <li>hook_menu_site_status_alter</li>
+                </ul>
+              </li>
+              <li>Exception</li>
+              <li>View</li>
+              <li>Controller</li>
+              <li>Response
+                <ul class="small">
+                  <li>hook_drupal_goto_alter</li>
+                </ul>
+              </li>
+              <li>Terminate</li>
+              <li>Finish Request</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>YAML Ain't Markup Language</h2>
+            <div class="block">
+              <p><q>A human friendly data serialization standard for all programming languages.</q></p>
+              <p>Replacement for Drupal Arrays of Doom &trade;. Safer(ish) than moving PHP around.</p>
+            </div>
+            <div class="block">
+              <ul>
+                <li>Info files</li>
+                <li>Menu system</li>
+                <li>Views, Migrate modules</li>
+                <li>CMI</li>
+                <li>Plugins (Kinda)</li>
+                <li>More!</li>
+              </ul>
+            </div>
+
+            <aside class="notes">
+              Become the status quo for anything config related. Except annotations (wtf)!
+              Serialization (like JSON, php_serialize()) means it can represent many data structures, but human readable.
+              Whitespace is very important!
+              Supports comments with #.
+            </aside>
+          </section>
+          <section>
+            <h2>Views Export</h2>
+            <div class="before">
+              <pre><code class="language-php" data-trim contenteditable>
+$view = new view();
+$view->name = 'test';
+$view->description = '';
+$view->tag = 'default';
+$view->base_table = 'node';
+$view->human_name = 'Test';
+$view->core = 7;
+$view->api_version = '3.0';
+$view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+/* Display: Master */
+$handler = $view->new_display('default', 'Master', 'default');
+$handler->display->display_options['title'] = 'Test';
+$handler->display->display_options['use_more_always'] = FALSE;
+$handler->display->display_options['access']['type'] = 'perm';
+$handler->display->display_options['cache']['type'] = 'none';
+$handler->display->display_options['query']['type'] = 'views_query';
+$handler->display->display_options['exposed_form']['type'] = 'basic';
+$handler->display->display_options['pager']['type'] = 'full';
+$handler->display->display_options['pager']['options']['items_per_page'] = '10';
+$handler->display->display_options['style_plugin'] = 'default';
+$handler->display->display_options['row_plugin'] = 'node';
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'node';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = '';
+$handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+$handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+/* Sort criterion: Content: Post date */
+$handler->display->display_options['sorts']['created']['id'] = 'created';
+$handler->display->display_options['sorts']['created']['table'] = 'node';
+$handler->display->display_options['sorts']['created']['field'] = 'created';
+$handler->display->display_options['sorts']['created']['order'] = 'DESC';
+/* Filter criterion: Content: Published */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'node';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = 1;
+$handler->display->display_options['filters']['status']['group'] = 1;
+$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+
+/* Display: Page */
+$handler = $view->new_display('page', 'Page', 'page');
+$handler->display->display_options['path'] = 'test';</code></pre>
+            </div>
+            <div class="after">
+              <pre><code class="language-yaml" data-trim contenteditable>
+uuid: 557e1a08-e34c-488a-8600-c77c496509fb
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - user
+id: test
+label: Test
+module: views
+description: ''
+tag: ''
+base_table: node
+base_field: nid
+core: 8.x
+display:
+  default:
+    display_plugin: default
+    id: default
+    display_title: Master
+    position: 0
+    display_options:
+      access:
+        type: perm
+        options:
+          perm: 'access content'
+      cache:
+        type: none
+        options: {  }
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: false
+          query_tags: {  }
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        type: full
+        options:
+          items_per_page: 10
+          offset: 0
+          id: 0
+          total_pages: null
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          tags:
+            previous: '‹ previous'
+            next: 'next ›'
+            first: '« first'
+            last: 'last »'
+          quantity: 9
+      style:
+        type: default
+      row:
+        type: 'entity:node'
+        options:
+          build_mode: teaser
+          links: true
+          view_mode: teaser
+          rendering_language: translation_language_renderer
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          label: ''
+          alter:
+            alter_text: false
+            make_link: false
+            absolute: false
+            trim: false
+            word_boundary: false
+            ellipsis: false
+            strip_tags: false
+            html: false
+          hide_empty: false
+          empty_zero: false
+          link_to_node: 1
+          relationship: none
+          group_type: group
+          admin_label: ''
+          exclude: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_alter_empty: true
+      filters:
+        status:
+          value: true
+          table: node_field_data
+          field: status
+          provider: node
+          id: status
+          expose:
+            operator: ''
+          group: 1
+      sorts:
+        created:
+          id: created
+          table: node_field_data
+          field: created
+          order: DESC
+          relationship: none
+          group_type: group
+          admin_label: ''
+          exposed: false
+          expose:
+            label: ''
+          granularity: second
+      title: Test
+      header: {  }
+      footer: {  }
+      empty: {  }
+      relationships: {  }
+      arguments: {  }
+      field_langcode: '***LANGUAGE_language_content***'
+      field_langcode_add_to_query: null
+  page_1:
+    display_plugin: page
+    id: page_1
+    display_title: Page
+    position: 1
+    display_options:
+      field_langcode: '***LANGUAGE_language_content***'
+      field_langcode_add_to_query: null
+      path: test
+
+              </code></pre>
+            </div>
+          </section>
+        </section>
+
+        <section data-markdown><script type="text/template">
+          ## OOP
+
+          * Object Oriented Programming
+          * You don't have to be an OOP architect genius ninja
+          * You do need to be familiar with syntax for classes, namespaces and traversel
+          * You should understand basic inheritance
+        </script></section>
+        <section data-markdown><script type="text/template">
+          ## PSR-4
+
+          * PHP Standard Recommendation #4
+          * An autoloading standard to replace PSR-0
+           * No more files[] in your MODULE.info
+          * Classes with namespace \Drupal\MODULE are looked for in MODULE/src/
+           * \Drupal\MODULE\Plugin\Block\Block1 = &lt;root&gt;/modules/MODULE/src/Plugin/Block/Block1.php
+          * Drupal functions have alway been namespaced, now we're using a language feature for it
+        </script></section>
+
+        <section>
+          <section>
+            <h2>Menus &amp; Routing</h2>
+            <img src="https://www.drupal.org/files/Drupal7MenuToDrupal8.png" />
+
+            <aside class="notes">
+              First major change (IMHO) we see of "hard" stuff. Essentially hook_menu() has been refactored and split up into many systems.
+              Almost all of it uses YAML. It's only hard because it's split into so many places.
+            </aside>
+          </section>
+
+          <section>
+            <h2>Route</h2>
+            <p>MODULE.routing.yml</p>
+            <pre><code class="language-yaml" data-trim contenteditable>
+MODULE.dashboard
+  path: '/MODULE/dashboard'
+  defaults:
+    _content: '\Drupal\MODULE\Controller\DashboardController::dashboard'
+    _title: 'Dashboard'
+  requirements:
+    _permission: 'view MODULE dashboard'
+            </code></pre>
+            <pre><code class="language-php" data-trim contenteditable>
+namespace Drupal\MODULE\Controller;
+
+Class DashboardController {
+  public function dashboard() {}
+}
+            </code></pre>
+
+            <aside class="notes">
+              Most basic part is routing. Where you map a (semi)-static URL to a function (controller) that will show some output (form). Each route has
+              (at least) a machine name, a path, and some action to take. That can be displaying a themed page (_content), an themeless page (_controller),
+              a form (_form), etc. We pass a fully qualified class and a method to use on that class for the content.
+              You also define access checks here. Remember since this is YAML, whitespace counts. Also supports URL parameters {node} and will convert those
+              to objects automatically.
+            </aside>
+          </section>
+
+          <section>
+            <h2>Local Tasks, Actions</h2>
+            <div class="block">
+              <p>books.links.tasks.yml</p>
+              <pre><code class="language-yaml" data-trim contenteditable>
+book.admin:
+  route_name: book.admin
+  title: 'Books'
+  base_route: system.admin_content
+book.admin.list:
+  route_name: book.admin
+  title: 'List'
+  parent_id: book.admin
+book.settings:
+  route_name: book.settings
+  title: 'Settings'
+  parent_id: book.admin
+  weight: 8
+              </code></pre>
+            </div>
+            <div class="block">
+              <p>menu.links.action.yml</p>
+              <pre><code class="language-yaml" data-trim contenteditable>
+menu.menu_add:
+  route_name: menu.menu_add
+  title: 'Add menu'
+  appears_on:
+    - menu.overview_page
+              </code></pre>
+            </div>
+            <img src="https://www.drupal.org/files/BookTabsSummary.png" height="200" />
+
+            <aside class="notes">
+              These all work similarly to routing. But now we're defining menu items that show up in the Drupal UI. I stole these examples from the d.o docs.
+              You have a machine name, a route name the menu links to, a title to display in the UI and a base_route or parent_id for grouping. You can also get
+              more advanced by implementing a custom plugin to provide dynamic items or titles.
+            </aside>
+          </section>
+
+          <section>
+            <h2>Contextual Links, Menu Items</h2>
+            <div class="block">
+              <p>menu.links.contextual.yml</p>
+              <pre><code class="language-yaml" data-trim contenteditable>
+menu.edit:
+  title: 'Edit menu'
+  route_name: 'menu.menu_edit'
+  group: menu
+              </code></pre>
+            </div>
+            <div class="block">
+              <p>book.links.menu.yml</p>
+              <pre><code class="language-yaml" data-trim contenteditable>
+book.render:
+  title: 'Books'
+  route_name: book.render
+  hidden: 1
+              </code></pre>
+            </div>
+
+            <aside class="notes">
+              Again, you have a machine name (see a pattern?), route name and title. For menu links, you can implement a Plugin derivative for dynamic menu items.
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h2>Forms</h2>
+            <div class="before">
+              <pre><code class="language-php" data-trim contenteditable>
+function MODULE_settings_form($form, &$form_state) {
+  $form['MODULE_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
+  return system_settings_form($form);
+}
+              </code></pre>
+            </div>
+            <div class="after">
+              <pre><code class="language-php" data-trim contenteditable>
+namespace Drupal\MODULE\Form;
+use Drupal\Core\Form\ConfigFormBase;
+class MODULESettingsForm extends ConfigFormBase {
+  public function getFormID() {
+    return 'MODULE.settings';
+  }
+
+  public function buildForm(array $form, array &$form_state) {
+    $form['MODULE_name'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Name'),
+    );
+
+    return parent::buildForm($form, $form_state);
+  }
+
+  public function submitForm(array &$form, &$form_state) {
+    // Set CMI stuff here
+    parent::submitForm($form, $form_state);
+  }
+}
+              </code></pre>
+            </div>
+          </section>
+        </section>
+
+        <section>
+          <h1>Reveal.js</h1>
+          <h3>HTML Presentations Made Easy</h3>
+          <p>
+            <small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+          </p>
+        </section>
+
+        <section>
+          <h2>Heads Up</h2>
+          <p>
+            reveal.js is a framework for easily creating beautiful presentations using HTML. You'll need a browser with
+            support for CSS 3D transforms to see it in its full glory.
+          </p>
+
+          <aside class="notes">
+            Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+          </aside>
+        </section>
+
+        <!-- Example of nested vertical slides -->
+        <section>
+          <section>
+            <h2>Vertical Slides</h2>
+            <p>
+              Slides can be nested inside of other slides,
+              try pressing <a href="#" class="navigate-down">down</a>.
+            </p>
+            <a href="#" class="image navigate-down">
+              <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+            </a>
+          </section>
+          <section>
+            <h2>Basement Level 1</h2>
+            <p>Press down or up to navigate.</p>
+          </section>
+          <section>
+            <h2>Basement Level 2</h2>
+            <p>Cornify</p>
+            <a class="test" href="http://cornify.com">
+              <img width="280" height="326" src="https://s3.amazonaws.com/hakim-static/reveal-js/cornify.gif" alt="Unicorn">
+            </a>
+          </section>
+          <section>
+            <h2>Basement Level 3</h2>
+            <p>That's it, time to go back up.</p>
+            <a href="#/2" class="image">
+              <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
+            </a>
+          </section>
+        </section>
+
+        <section>
+          <h2>Slides</h2>
+          <p>
+            Not a coder? No problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slid.es" target="_blank">http://slid.es</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Point of View</h2>
+          <p>
+            Press <strong>ESC</strong> to enter the slide overview.
+          </p>
+          <p>
+            Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
+          </p>
+        </section>
+
+        <section>
+          <h2>Works in Mobile Safari</h2>
+          <p>
+            Try it out! You can swipe through the slides and pinch your way to the overview.
+          </p>
+        </section>
+
+        <section>
+          <h2>Marvelous Unordered List</h2>
+          <ul>
+            <li>No order here</li>
+            <li>Or here</li>
+            <li>Or here</li>
+            <li>Or here</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Fantastic Ordered List</h2>
+          <ol>
+            <li>One is smaller than...</li>
+            <li>Two is smaller than...</li>
+            <li>Three!</li>
+          </ol>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Markdown support
+
+            For those of you who like that sort of thing. Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
+
+            ```
+            <section data-markdown>
+              ## Markdown support
+
+              For those of you who like that sort of thing.
+              Instructions and a bit more info available [here](https://github.com/hakimel/reveal.js#markdown).
+            </section>
+            ```
+          </script>
+        </section>
+
+        <section id="transitions">
+          <h2>Transition Styles</h2>
+          <p>
+            You can select from different transitions, like: <br>
+            <a href="?transition=cube#/transitions">Cube</a> -
+            <a href="?transition=page#/transitions">Page</a> -
+            <a href="?transition=concave#/transitions">Concave</a> -
+            <a href="?transition=zoom#/transitions">Zoom</a> -
+            <a href="?transition=linear#/transitions">Linear</a> -
+            <a href="?transition=fade#/transitions">Fade</a> -
+            <a href="?transition=none#/transitions">None</a> -
+            <a href="?#/transitions">Default</a>
+          </p>
+        </section>
+
+        <section id="themes">
+          <h2>Themes</h2>
+          <p>
+            Reveal.js comes with a few themes built in: <br>
+            <a href="?theme=sky#/themes">Sky</a> -
+            <a href="?theme=beige#/themes">Beige</a> -
+            <a href="?theme=simple#/themes">Simple</a> -
+            <a href="?theme=serif#/themes">Serif</a> -
+            <a href="?theme=night#/themes">Night</a> -
+            <a href="?#/themes">Default</a>
+          </p>
+          <p>
+            <small>
+              * Theme demos are loaded after the presentation which leads to flicker. In production you should load your theme in the <code>&lt;head&gt;</code> using a <code>&lt;link&gt;</code>.
+            </small>
+          </p>
+        </section>
+
+        <section>
+          <section data-state="alert">
+            <h2>Global State</h2>
+            <p>
+              Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+              will be added as a class to the document element when the slide is open. This lets you
+              apply broader style changes, like switching the background.
+            </p>
+            <a href="#" class="image navigate-down">
+              <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+            </a>
+          </section>
+          <section data-state="blackout">
+            <h2>"blackout"</h2>
+            <a href="#" class="image navigate-down">
+              <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+            </a>
+          </section>
+          <section data-state="soothe">
+            <h2>"soothe"</h2>
+            <a href="#" class="image navigate-next">
+              <img width="178" height="238" src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(-90deg);">
+            </a>
+          </section>
+        </section>
+
+        <section data-state="customevent">
+          <h2>Custom Events</h2>
+          <p>
+            Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
+          </p>
+          <pre><code data-trim contenteditable style="font-size: 18px; margin-top: 20px;">
+Reveal.addEventListener( 'customevent', function() {
+  console.log( '"customevent" has fired' );
+} );
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Clever Quotes</h2>
+          <p>
+            These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+            &ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
+          </p>
+          <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+            &ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+            reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+          </blockquote>
+        </section>
+
+        <section>
+          <h2>Pretty Code</h2>
+          <pre><code data-trim contenteditable>
+function linkify( selector ) {
+  if( supports3DTransforms ) {
+
+    var nodes = document.querySelectorAll( selector );
+
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
+
+      if( !node.className ) ) {
+        node.className += ' roll';
+      }
+    };
+  }
+}
+          </code></pre>
+          <p>Courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+        </section>
+
+        <section>
+          <h2>Intergalactic Interconnections</h2>
+          <p>
+            You can link between slides internally,
+            <a href="#/2/3">like this</a>.
+          </p>
+        </section>
+
+        <section>
+          <section>
+            <h2>Fragmented Views</h2>
+            <p>Hit the next arrow...</p>
+            <p class="fragment">... to step through ...</p>
+            <ol>
+              <li class="fragment"><code>any type</code></li>
+              <li class="fragment"><em>of view</em></li>
+              <li class="fragment"><strong>fragments</strong></li>
+            </ol>
+
+            <aside class="notes">
+              This slide has fragments which are also stepped through in the notes window.
+            </aside>
+          </section>
+          <section>
+            <h2>Fragment Styles</h2>
+            <p>There's a few styles of fragments, like:</p>
+            <p class="fragment grow">grow</p>
+            <p class="fragment shrink">shrink</p>
+            <p class="fragment roll-in">roll-in</p>
+            <p class="fragment fade-out">fade-out</p>
+            <p class="fragment highlight-red">highlight-red</p>
+            <p class="fragment highlight-green">highlight-green</p>
+            <p class="fragment highlight-blue">highlight-blue</p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Spectacular image!</h2>
+          <a class="image" href="http://lab.hakim.se/meny/" target="_blank">
+            <img width="320" height="299" src="http://s3.amazonaws.com/hakim-static/portfolio/images/meny.png" alt="Meny">
+          </a>
+        </section>
+
+        <section>
+          <h2>Export to PDF</h2>
+          <p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, below is an example that's been uploaded to SlideShare.</p>
+          <iframe id="slideshare" src="http://www.slideshare.net/slideshow/embed_code/13872948" width="455" height="356" style="margin:0;overflow:hidden;border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen> </iframe>
+          <script>
+            document.getElementById('slideshare').attributeName = 'allowfullscreen';
+          </script>
+        </section>
+
+        <section>
+          <h2>Take a Moment</h2>
+          <p>
+            Press b or period on your keyboard to enter the 'paused' mode. This mode is helpful when you want to take distracting slides off the screen
+            during a presentation.
+          </p>
+        </section>
+
+        <section>
+          <h2>Stellar Links</h2>
+          <ul>
+            <li><a href="http://slid.es">Try the online editor</a></li>
+            <li><a href="https://github.com/hakimel/reveal.js">Source code on GitHub</a></li>
+            <li><a href="http://twitter.com/hakimel">Follow me on Twitter</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h1>THE END</h1>
+          <h3>BY Hakim El Hattab / hakim.se</h3>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../reveal.js/js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: '../../reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+          // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+          // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
