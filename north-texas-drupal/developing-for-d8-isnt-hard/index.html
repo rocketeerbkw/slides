@@ -43,8 +43,12 @@
       }
       section .block {
         float: left;
-        width: 50%;
+        width: 35%;
         text-align: left;
+      }
+      section .block:first-of-type {
+        margin-left: 18%;
+        margin-right: 20px;
       }
       ul.small li {
         font-size: 0.6em;
@@ -196,7 +200,7 @@ class Block1 extends BlockBase {
           <section class="center">
             <h2>Plugins</h2>
             <p>... are small pieces of functionality that are swappable.</p>
-            <div class="block" style="text-align: right; padding-right: 1%">
+            <div class="block">
               <ul>
                 <li>Modules can provide plugins of type X<br> or say they accept plugins of type Y.</li>
                 <li>Metadata provided by annotations.</li>
