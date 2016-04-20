@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Migrating to Drupal 8</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../../reveal.js/css/reveal.min.css">
+    <link rel="stylesheet" href="../../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../reveal.js/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <style type="text/css">
+      section .before,
+      section .after {
+        width: 48%;
+        float: left;
+        margin-right: 1%;
+      }
+      .before pre,
+      .after pre {
+        margin: 0;
+        width: 100%;
+      }
+      section .block {
+        float: left;
+        width: 50%;
+        text-align: left;
+      }
+      ul.small li {
+        font-size: 0.6em;
+        line-height: 1.2em;
+        vertical-align: top;
+      }
+    </style>
+
+    <!--[if lt IE 9]>
+    <script src="../../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <h2>Migrating to Drupal 8</h2>
+          <p><a href="http://rocketeerbkw.github.io/slides/austin-drupal-users-group/migrating-to-drupal-8/">http://rocketeerbkw.github.io/slides/austin-drupal-users-group/migrating-to-drupal-8/</a></p>
+        </section>
+
+        <section>
+          <section>
+            <h2>Migrate Module</h2>
+            <blockquote>The migrate module provides a flexible framework for migrating content into Drupal from other sources (e.g., when converting a web site from another CMS to Drupal).</blockquote>
+          </section>
+          <section>
+            <div class="block">
+            <h2>Migrate</h2>
+            <ul>
+              <li>In Drupal 8 core</li>
+              <li>Support for D6 AND D7</li>
+              <li>Done on new site, not in-place</li>
+              <li>Modern, OO data transportation</li>
+              <li>Repeatable</li>
+            </ul>
+            </div>
+            <div class="block">
+            <h2>Upgrade</h2>
+            <ul>
+              <li>Done on current site</li>
+              <li>Raw SQL queries</li>
+              <li>Error prone</li>
+              <li>Mistakes = start over</li>
+            </ul>
+            </div>
+          </section>
+          <section>
+            <h2>Drupal 8.1.x</h2>
+            <ul>
+              <li>Migrate UI in core</li>
+              <li>Better support for D7</li>
+              <li>Plugins instead of Config Entities</li>
+              <li>May break migrations from 8.0.x</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Contrib Extensions</h2>
+            <ul>
+              <li>
+                <a href="https://www.drupal.org/project/migrate_upgrade">Migrate Upgrade</a>
+                <ul><li>Drush support for migrate_drupal</li></ul>
+              </li>
+              <li>
+                <a href="https://www.drupal.org/project/migrate_plus">Migrate Plus</a>
+                <ul><li>Extensions and Examples</li></ul>
+              </li>
+              <li>
+                <a href="https://www.drupal.org/project/migrate_tools">Migrate Tools</a>
+                <ul><li>Drush and UI for non-drupal migrations</li></ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>"Simple" Example</h2>
+            <ul>
+              <li>rocketeerbkw.com</li>
+              <li>Basic blog with Drupal 7</li>
+              <li>9 contrib, 1 custom</li>
+              <li>Bartik theme</li>
+            </ul>
+          </section>
+          <section>
+            <pre><code># Download Drupal
+drush dl
+
+# Install with minimal profile
+drush si minimal --account-name=admin --account-pass=admin --db-url=mysql://root@127.0.0.1/r8
+
+# Download contrib modules
+drush dl markdown pathauto token redirect google_analytics ctools migrate_upgrade
+
+# Need 8.x-2.x of migrate_plus
+drush dl --select migrate_plus
+
+# Enable modules you want to migrate
+drush en -y color contact block_content contextual menu_link_content options path rdf shortcut taxonomy link migrate_drupal_ui image toolbar markdown pathauto token redirect google_analytics migrate_upgrade
+
+# Run the migration
+# In the UI
+http://r8.dev/upgrade
+# Via drush
+drush migrate-upgrade --legacy-db-url=mysql://root@127.0.0.1/r7 --legacy-root=/Users/rocketeerbkw/Sites/r7
+            </code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>"Complex" example</h2>
+            <ul>
+              <li>truthunity.net</li>
+              <li>Multilingual, content hierarchy, relationships, access control, multimedia, kitchen sink</li>
+              <li>>100 contrib, Many custom</li>
+              <li>Custom theme</li>
+            </ul>
+          </section>
+          <section>
+            <p>Is contrib ready?</p>
+            <p>
+            <ul>
+              <li><a href="http://d8upgrade.org/">http://d8upgrade.org/</a></li>
+              <li><a href="https://www.drupal.org/project/contrib_tracker">Drupal 8 Contrib Porting Tracker</a></li>
+            </ul>
+            </p>
+            <p>Custom modules?</p>
+            <p><ul>
+              <li><a href="https://www.drupal.org/update/modules/7/8">Converting 7.x modules to 8.x</a></li>
+              <li><a href="https://www.drupal.org/project/drupalmoduleupgrader">Drupal Module Upgrader</a></li>
+              <li><a href="https://www.drupal.org/list-changes/drupal">Drupal 8 Change Records</a></li>
+            </ul></p>
+            <p>Custom theme?</p>
+            <p><ul>
+              <li><a href="https://www.drupal.org/node/2023177">Converting 7.x themes to 8.x</a></li>
+              <li>Probably start from scratch</li>
+            </ul></p>
+          </section>
+          <section>
+            <h2>Verdict?</h2>
+            <p>7 to 8 is probably not ready. <a href="https://www.drupal.org/project/issues/drupal?component=migration+system">But you can help!</a></p>
+            <p>6 to 8 is suppossed to have better support.</p>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Advanced Migrations</h2>
+            <ul>
+              <li>Merge or split content types</li>
+              <li>Merge or split fields</li>
+              <li>Transform data between sites</li>
+              <li>Rearchitect but keep content</li>
+              <li>Only migrate portion of old site</li>
+              <li>Long-term development</li>
+              <li>Long-running migrations</li>
+              <li>Complex migration dependencies</li>
+              <li>Etc.</li>
+            </ul>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>New Business Requirement<sup>&trade;</sup></h2>
+            <ul>
+              <li>All taxonomy terms must be UPPERCASE</li>
+            </ul>
+          </section>
+          <section>
+            <p>1. Export migrations as config instead of running</p>
+            <pre><code>drush migrate-upgrade --configure-only --legacy-db-url=mysql://root@127.0.0.1/r7 --legacy-root=/Users/rocketeerbkw/Sites/r7</code></pre>
+            <p>2. Configure source database in settings.php</p>
+            <p>3. Migrate vocabularies</p>
+            <pre><code>drush mi upgrade_d7_taxonomy_vocabulary</code></pre>
+          </section>
+          <section>
+            <p>4. Export, Modify, Import terms migration</p>
+            <div class="block"><pre><code class="language-yaml">uuid: 70ba6e1b-0149-48b9-893a-ad0611935860
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_d7_taxonomy_term
+migration_tags:
+  - 'Drupal 7'
+migration_group: migrate_drupal_7
+label: 'Taxonomy terms'
+source:
+  plugin: taxonomy_term
+process:
+  tid: tid
+  vid:
+    plugin: migration
+    migration: upgrade_d7_taxonomy_vocabulary
+    source: vid
+  name: name
+  description: description
+  weight: weight
+  parent:
+    plugin: migration
+    migration: upgrade_d7_taxonomy_term
+    source: parent
+  changed: timestamp
+destination:
+  plugin: 'entity:taxonomy_term'
+migration_dependencies:
+  required:
+    - upgrade_d7_taxonomy_vocabulary
+  optional: {  }</code></pre></div>
+            <div class="block"><pre><code class="language-yaml">uuid: 70ba6e1b-0149-48b9-893a-ad0611935860
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_d7_taxonomy_term
+migration_tags:
+  - 'Drupal 7'
+migration_group: migrate_drupal_7
+label: 'Taxonomy terms'
+source:
+  plugin: taxonomy_term
+process:
+  tid: tid
+  vid:
+    plugin: migration
+    migration: upgrade_d7_taxonomy_vocabulary
+    source: vid
+  name:
+    plugin: callback
+    callable: strtoupper
+    source: name
+  description: description
+  weight: weight
+  parent:
+    plugin: migration
+    migration: upgrade_d7_taxonomy_term
+    source: parent
+  changed: timestamp
+destination:
+  plugin: 'entity:taxonomy_term'
+migration_dependencies:
+  required:
+    - upgrade_d7_taxonomy_vocabulary
+  optional: {  }</code></pre></div>
+          </section>
+          <section>
+            <p>5. Rebuild cache</p>
+            <pre><code>drush cache-rebuild</code></pre>
+            <p>6. Migrate terms</p>
+            <pre><code>drush mi upgrade_d7_taxonomy_term</code></pre>
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>New Business Requirement<sup>&trade;</sup></h2>
+            <ul>
+              <li>New branding, update employee email addresses</li>
+            </ul>
+          </section>
+          <section>
+            <p>1. Export migrations as config instead of running</p>
+            <pre><code>drush migrate-upgrade --configure-only --legacy-db-url=mysql://root@127.0.0.1/r7 --legacy-root=/Users/rocketeerbkw/Sites/r7</code></pre>
+            <p>2. Configure source database in settings.php</p>
+          </section>
+          <section>
+            <p>3. Custom module with custom source plugin</p>
+            <pre><code>drupal generate:module</code></pre>
+            <pre><code class="language-php"><?php
+
+namespace Drupal\evilcorp_migrations\Plugin\migrate\source;
+
+use Drupal\migrate\Row;
+use Drupal\migrate_drupal\Plugin\migrate\source\d7\FieldableEntity;
+use Drupal\user\Plugin\migrate\source\d7\User as MigrateUser;
+
+/**
+ * Drupal 7 user source from database.
+ *
+ * @MigrateSource(
+ *   id = "evilcorp_migrations_user"
+ * )
+ */
+class User extends MigrateUser {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function prepareRow(Row $row) {
+    $old_email = $row->getSourceProperty('mail');
+    $new_mail = str_replace('@evilcorp.com', '@rockstars.io', $old_email);
+    $row->setSourceProperty('mail', $new_mail);
+
+    return parent::prepareRow($row);
+  }
+
+}
+</code></pre>
+          </section>
+          <section>
+            <p>4. Export, Modify, Import user migration</p>
+            <div class="block"><pre><code class="language-yaml">uuid: 72303b9e-6cd6-4c96-9ab2-e5c58a4697b7
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_d7_user
+migration_tags:
+  - 'Drupal 7'
+migration_group: migrate_drupal_7
+label: 'User accounts'
+source:
+  plugin: d7_user
+process:
+  uid: uid
+  name: name
+  pass: pass
+  mail: mail
+  created: created
+  access: access
+  login: login
+  status: status
+  timezone: timezone
+  langcode: language
+  preferred_langcode: language
+  preferred_admin_langcode: language
+  init: init
+  roles:
+    plugin: migration
+    migration: upgrade_d7_user_role
+    source: roles
+  user_picture:
+    -
+      plugin: default_value
+      source: picture
+      default_value: null
+    -
+      plugin: migration
+      migration: d7_file
+destination:
+  plugin: 'entity:user'
+migration_dependencies:
+  required:
+    - upgrade_d7_user_role
+  optional:
+    - upgrade_d7_file
+    - upgrade_user_picture_field_instance
+    - upgrade_user_picture_entity_display
+    - upgrade_user_picture_entity_form_display</code></pre></div>
+            <div class="block"><pre><code class="language-yaml">uuid: 72303b9e-6cd6-4c96-9ab2-e5c58a4697b7
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_d7_user
+migration_tags:
+  - 'Drupal 7'
+migration_group: migrate_drupal_7
+label: 'User accounts'
+source:
+  plugin: evilcorp_migrations_user
+process:
+  uid: uid
+  name: name
+  pass: pass
+  mail: mail
+  created: created
+  access: access
+  login: login
+  status: status
+  timezone: timezone
+  langcode: language
+  preferred_langcode: language
+  preferred_admin_langcode: language
+  init: init
+  roles:
+    plugin: migration
+    migration: upgrade_d7_user_role
+    source: roles
+  user_picture:
+    -
+      plugin: default_value
+      source: picture
+      default_value: null
+    -
+      plugin: migration
+      migration: d7_file
+destination:
+  plugin: 'entity:user'
+migration_dependencies:
+  required:
+    - upgrade_d7_user_role
+  optional:
+    - upgrade_d7_file
+    - upgrade_user_picture_field_instance
+    - upgrade_user_picture_entity_display
+    - upgrade_user_picture_entity_form_display</code></pre></div>
+          </section>
+          <section>
+            <p>5. Rebuild cache</p>
+            <pre><code>drush cache-rebuild</code></pre>
+            <p>6. Migrate users</p>
+            <pre><code>drush mi --execute-dependencies upgrade_d7_user</code></pre>
+          </section>
+        </section>
+        <section>
+          <h2>Non-Drupal Migrations</h2>
+          <p>The migrate module was originally created to facilitate migrations from platforms other than Drupal.</p>
+          <p>All the concepts used for migrating from Drupal 7 can just as easily be used to migrate from WordPress, Joomla!, etc.</p>
+        </section>
+        <section>
+          <h2>Resources</h2>
+          <ul>
+            <li><a href="https://www.drupal.org/upgrade/migrate">Upgrading from Drupal 6 or 7 to Drupal 8</a></li>
+            <li><a href="https://www.drupal.org/node/2127611">Migrate API in Drupal 8</a></li>
+            <li><a href="https://www.google.com/search?q=site%3Atheweeklydrop.com+migrate&ie=utf-8&oe=utf-8">Numerous blog posts.</a> Pre 8.1.x may not be up to date.</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Questions</h2>
+          <p>@rocketeerbkw<br>rocketeerbkw@gmail.com<br>rocketeerbkw.com</p>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="../../reveal.js/lib/js/head.min.js"></script>
+    <script src="../../reveal.js/js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        history: true,
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: '../../reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+          // { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+          // { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+  </body>
+</html>
