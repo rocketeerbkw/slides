@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+	<html class="sl-root decks export offline loaded">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>The Little Issue that Could: Debugging and Contributing Patches on Drupal.org</title>
+		<meta name="description" content="Slides">
+
+		<link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+
+
+	</head>
+	<body class="reveal-viewport theme-font-opensans theme-color-sky-blue">
+		<div class="reveal">
+			<div class="slides">
+				<section class="stack" data-id="8d9252a8e40fab4102295508c94dd711"><section data-id="0897d249b33050e0d0f39907c6934758" class="has-dark-background" data-background-color="rgb(93,68,46)" data-background-image="img/3148908-train-2.jpg"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 113px; height: auto;" data-block-id="bba799c3f795687bc75a824511089ec3"><div class="sl-block-style" style="z-index: 12; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 12; background-color: rgb(255, 255, 255);">
+<h1>The Little Issue that Could:</h1>
+</div></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="d78559e2a84c5a31ba96ad1e114f8d64" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 381px;"><div class="sl-block-style" style="z-index: 11; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; background-color: rgb(255, 255, 255);">
+<p>Debugging and Contributing Patches on Drupal.org</p>
+</div></div></div></section><section data-id="e0732a36ee4bd053a64969d776585bea" class="has-dark-background" data-background-color="rgb(50,68,52)" data-background-image="img/3148910-train-3.jpg"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 232px; height: auto;" data-block-id="856ae019cfeff5cdff4130f086c60194"><div class="sl-block-style" style="z-index: -1; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="background-color: rgb(255, 255, 255);">
+<h1>I Found a Bug</h1>
+</div></div></div>
+</section><section data-id="c78b7c2663e943321d9e4d04580e4c3d" data-background-size="cover"><div class="sl-block" data-block-type="iframe" data-block-id="4f81f953c28be5e2cef3c012424a7751" style="min-width: 30px; min-height: 30px; width: 960px; height: 700px; left: 0px; top: 0px;"><div class="sl-block-content" style="z-index: 11;"><iframe webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" sandbox="allow-forms allow-scripts allow-popups allow-same-origin allow-pointer-lock" data-src="https://www.youtube.com/embed/VCKAo-adbvw?enablejsapi=1" data-autoplay=""></iframe></div></div></section><section data-id="cb878662c56a06cad093eaff6623f9df" class="has-light-background" data-background-image="img/3148904-train-1.jpg" data-background-color="rgb(129,129,129)"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 233px; height: auto;" data-block-id="197419aa93814c19627a7b503313f2e5"><div class="sl-block-style" style="z-index: -1; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="background-color: rgb(255, 255, 255);">
+<h1>Now What?</h1>
+</div></div></div>
+</section><section data-id="67985e9b113e2fa148db6516123f710f"><div class="sl-block" data-block-type="image" style="width: 960px; height: 475.443px; left: 0px; top: 196px;" data-block-id="dc4e75b799c17fbe70d13ce0738eb2b3"><div class="sl-block-content" href="" style="z-index: 11;"><img data-natural-width="1264" data-natural-height="626" style="" data-src="img/3141836-stable-vs-dev.png"></div></div>
+
+
+
+
+<div class="sl-block" data-block-type="text" data-block-id="a616d2abb09bd9aaba9f64722c966f27" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 45px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<h3>Try -dev</h3>
+</div></div>
+<div class="sl-block" data-block-type="shape" style="min-width: 4px; min-height: 4px; width: 173px; height: 221px; left: 720px; top: 380px;" data-block-id="3408cac2f2ebe397a790a2354cf5b0d8"><div class="sl-block-content fragment" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 13;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="7" data-fragment-index="0"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 173 221"><defs><clippath id="shape-mask-1-1477168032226"><rect width="173" height="221"></rect></clippath></defs><rect width="173" height="221" clip-path="url(#shape-mask-1-1477168032226)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="14"></rect></svg></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="6396ee3ae33787d13604d432c6d3302c" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 121px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;">
+<p style="color:rgb(51, 51, 51)">4 years and 78 commits newer</p>
+</div></div></section><section data-id="b34855ff28d2f703815a9e1004d2c7dd"><div class="sl-block" data-block-type="text" style="width: 800px; left: 79px; top: 50px; height: auto;" data-block-id="03aa50046de4089c7e65009a0d0efd52"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10;">
+<h2>Search Issue Queue</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 808.889px; height: 560px; left: 75.5556px; top: 140px;" data-block-id="412091efb8b62fb4b9efef8840febffb"><div class="sl-block-content" style="z-index: 11;"><img data-natural-width="1300" data-natural-height="900" style="" data-src="img/3147045-issue-queue.png"></div></div>
+<div class="sl-block" data-block-type="shape" style="min-width: 4px; min-height: 4px; width: 208px; height: 60px; left: 72px; top: 226px;" data-block-id="709e70efa41783935dd512fe72cc0a5c"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 12;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="7"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 208 60"><defs><clippath id="shape-mask-2-1477168032698"><rect width="208" height="60"></rect></clippath></defs><rect width="208" height="60" clip-path="url(#shape-mask-2-1477168032698)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="14"></rect></svg></div></div>
+<div class="sl-block" data-block-type="shape" style="min-width: 4px; min-height: 4px; width: 216px; height: 85px; left: 73px; top: 271px;" data-block-id="d179e6e8f661944f1e43340806c5cd00"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 13;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="7"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 216 85"><defs><clippath id="shape-mask-3-1477168032700"><rect width="216" height="85"></rect></clippath></defs><rect width="216" height="85" clip-path="url(#shape-mask-3-1477168032700)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="14"></rect></svg></div></div>
+<div class="sl-block" data-block-type="shape" style="min-width: 4px; min-height: 4px; width: 127px; height: 85px; left: 433px; top: 271px;" data-block-id="e48f0a6fbcfdfdbb2be4374b617d80e7"><div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true" style="z-index: 15;" data-shape-stroke-color="#ff0000" data-shape-stroke-width="7"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 127 85"><defs><clippath id="shape-mask-4-1477168032701"><rect width="127" height="85"></rect></clippath></defs><rect width="127" height="85" clip-path="url(#shape-mask-4-1477168032701)" class="shape-element" fill="rgba(0, 0, 0, 0)" stroke="#ff0000" stroke-width="14"></rect></svg></div></div></section><section class="has-dark-background" data-id="fed1285475e75b91056f2afc6867107e" data-background-size="cover" data-background-image="img/3148920-train-4.jpg" data-background-color="rgb(82,109,106)"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 193px; height: auto;" data-block-id="fb07c4da17fc8752888c54e7a34b3278"><div class="sl-block-style" style="z-index: 10; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 10; background-color: rgb(255, 255, 255);">
+<h1>Existing Issue</h1>
+
+<p>And it has a patch!</p>
+</div></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="b04103a83959e850104d0bfd332b3773" style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 80px; top: 401px;"><div class="sl-block-style" style="z-index: 14; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14; background-color: rgb(255, 255, 255);">
+<p>Not covered here, but you can <a href="https://www.drupal.org/patch/apply" target="_blank">read the docs</a>.</p>
+</div></div></div></section><section class="has-dark-background" data-background-size="cover" data-id="19a3ad701f1e8f577e69abd8328bad85" data-background-image="img/3148949-train-7.jpg" data-background-color="rgb(87,92,75)"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 193px; height: auto;" data-block-id="2b9dd06c61908632002cdfe82d69e5b4"><div class="sl-block-style" style="z-index: 11; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11; background-color: rgb(255, 255, 255);">
+<h1>No Issue</h1>
+
+<p>or no patch...</p>
+</div></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="aac12499f97930b09b52786233f9b515" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 401px;"><div class="sl-block-style" style="z-index: 13; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13; background-color: rgb(255, 255, 255);">
+<p><strong>Rejoice! </strong>Now we get to the fun stuff!</p>
+</div></div></div></section><section data-id="dc7e2109aac0033ce27b4536cbb4ec4b"><div class="sl-block" data-block-type="text" style="width: 430px; left: 23px; top: 87px; height: auto;" data-block-id="27b151f8b495b0ccce556fdaec0217e3"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="text-align: left; z-index: 10;">
+<h2>Create Issue</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 430px; left: 23px; top: 161px; height: auto;" data-block-id="7772fcb6952a8fd3ae5b1367c6b8ad26"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nec metus justo. Aliquam erat volutpat." style="z-index: 13; text-align: left;">
+<ul>
+	<li>Don't forget</li>
+	<li>Validates other drupalistas</li>
+	<li>Be specific</li>
+	<li>Reproducable steps</li>
+	<li><a href="https://www.drupal.org/node/73179" target="_blank">How to create a good issue</a></li>
+</ul>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 480px; height: 504.673px; left: 480px; top: 87px;" data-block-id="8619a3ae4cd19040c670874f680c2ff6"><div class="sl-block-content" style="z-index: 11;"><img style="" data-natural-width="856" data-natural-height="900" data-src="img/3147089-create-issue.png"></div></div></section><section data-id="72243c9c9b457b14e0e4e95598db935f" data-background-image="img/3147115-file-entity-issue.png" data-background-size="contain"></section><section class="has-dark-background" data-id="ea070b1f154ce4da4c1a215c891ce54b" data-background-image="img/3148936-train-6.jpg" data-background-color="rgb(59,47,31)"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 252px; height: auto;" data-block-id="b59f16b675e35911535ff6476a7b3efc"><div class="sl-block-style" style="z-index: -1; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="background-color: rgb(255, 255, 255);">
+<h1>Wait for Someone Else to Fix it?</h1>
+</div></div></div></section><section class="has-dark-background" data-id="a90fda35e2056203d8562e6a4bcbec6e" data-background-image="img/3148927-train-5.jpg" data-background-color="rgb(39,43,50)"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 190px; height: auto;" data-block-id="130bd1600d65f0be42c0446de518722f"><div class="sl-block-style" style="z-index: 10; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 10; background-color: rgb(255, 255, 255);">
+<h2>Narrow Your Focus</h2>
+</div></div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 264px; height: auto;" data-block-id="6dc8301314b3a7285985b206bd9f1d92"><div class="sl-block-style" style="z-index: 11; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; background-color: rgb(255, 255, 255);">
+<ul>
+	<li>1,536,209 lines of code</li>
+	<li>16,576 files</li>
+	<li>7 languages</li>
+</ul>
+</div></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="2e57d88c10c8b981e434362255743d49" style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 180px; top: 541px;"><div class="sl-block-style" style="z-index: 13; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13; background-color: rgb(255, 255, 255);">
+<p><span style="font-size:0.7em">* For Drupal 8.3.x as of 10/21</span></p>
+</div></div></div></section><section class="has-dark-background" data-id="4ff96058bedbcc235488ed87735c7c62" data-background-image="img/3148927-train-5.jpg" data-background-color="rgb(39,43,50)"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 196px; height: auto;" data-block-id="303d0f8e4493b0f2ab1d82734ae12df1"><div class="sl-block-style" style="z-index: 11; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text" style="z-index: 11; background-color: rgb(255, 255, 255);">
+<h2>Narrow Your Focus</h2>
+</div></div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 270px; height: auto;" data-block-id="eca6e0685f10c320cf3d1b5c15339f4b"><div class="sl-block-style" style="z-index: 12; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; background-color: rgb(255, 255, 255);">
+<p>Frontend or Backend?</p>
+
+<p>Code or Content?</p>
+</div></div></div></section><section data-id="a2e17b22eec3829ac72a659b18699ca2"><div class="sl-block" data-block-type="iframe" data-block-id="77020219ec5c4b5921a63109ea73a8ed" style="min-width: 30px; min-height: 30px; width: 960px; height: 700px; left: 0px; top: 0px;"><div class="sl-block-content" style="z-index: 11;"><iframe webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" sandbox="allow-forms allow-scripts allow-popups allow-same-origin allow-pointer-lock" data-src="https://www.youtube.com/embed/VCKAo-adbvw?enablejsapi=1" data-autoplay=""></iframe></div></div></section><section data-id="b21165a7dbb97e4130777f9170b3f8a1" data-background-image="img/3147211-no-js-errors.png"></section><section class="has-light-background" data-id="c793a82b9bb9123d7826277879349056" data-background-image="img/3147241-no-drupal-errors.png" data-background-color="rgb(237,237,237)"></section><section class="has-dark-background" data-id="c7cccc711486bda19ec3d8198a913763" data-background-color="rgb(124,128,134)" data-background-image="img/3147264-html-look-1.png"></section><section class="has-light-background" data-id="60a1d703fc9607150d0bfd7af7e2a7c6" data-background-image="img/3147259-code-search-1.png" data-background-color="rgb(207,208,208)"></section><section class="has-light-background" data-id="28ec2506b3ef55c2184ca8fea7ae2eb7" data-background-image="img/3147260-code-search-2.png" data-background-color="rgb(225,226,228)"></section><section data-id="c38685a74f70c4d6db3c4e7a108f1451" data-background-image="img/3147274-code-search-3.png" data-background-size="contain"></section><section class="has-dark-background" data-id="dac41f0d30d92a32cc777c7090ddebf8" data-background-image="img/3147261-html-look-2.png" data-background-color="rgb(127,128,130)"></section><section data-id="467101a9f62b277e364c4c995ee2cbeb" data-background-image="img/3147289-code-search-4.png" data-background-size="contain"></section><section class="has-light-background" data-id="eabdccfadb801bfeadcf2915495acbe5" data-background-image="img/3147309-dialog-ajax-1.png" data-background-color="rgb(243,243,243)"></section><section class="has-light-background" data-id="dfad088227c6f4af004df3bbfde74c7a" data-background-color="rgb(242,242,242)" data-background-image="img/3147711-dialog-ajax-3.png"></section><section class="has-light-background" data-id="b938435872a7e0a1e004ea321005af32" data-background-image="img/3147678-dialog-ajax-2.png" data-background-color="rgb(244,244,244)"></section><section class="has-light-background" data-id="17ceee4fbd1cff619f0bf82e07a71b1a" data-background-image="img/3147747-ajax-response.png" data-background-color="rgb(180,180,180)"></section><section data-id="005282c4ec611c0cacf63e0f1b277f16" data-background-image="img/3147751-code-search-5.png" data-background-size="contain"></section><section class="has-dark-background" data-id="85cd542f6989874d4faa9b66c8af0de5" data-background-image="img/3148950-BRIDGE41BAMBER_men_at_work_left_sidejpg-11.jpg" data-background-color="rgb(115,104,101)"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 271px; height: auto;" data-block-id="1951da7f67b37f8f93b9f7a77cc1fd50"><div class="sl-block-style" style="z-index: -1; opacity: 0.8;"><div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="background-color: rgb(255, 255, 255);">
+<h1>Let's Try And Fix It</h1>
+</div></div></div></section><section class="has-light-background" data-id="6189fd3e51989af784d830fb87cc0a9d" data-background-image="img/3147766-open-moda-dialog-command.png" data-background-color="rgb(238,240,243)"></section><section class="has-light-background" data-id="38c346332ff52bb327f45d742de65fa1" data-background-image="img/3147770-fix-1.png" data-background-color="rgb(236,238,240)"></section><section class="has-light-background" data-id="0db1ebc059e26032de9bd1aa2cf4b5d1" data-background-image="img/3147771-fix-2.png" data-background-color="rgb(235,237,240)"></section><section class="has-light-background" data-id="37ac2050ac7c029a88affb13c18bc7d2" data-background-image="img/3147772-fix-3.png.png" data-background-color="rgb(234,236,239)"></section><section data-id="c9d73d24cb18b0ca0fdc6df7ed45e484"><div class="sl-block" data-block-type="iframe" data-block-id="481f2d75ee60fb609d29341d19c02793" style="min-width: 30px; min-height: 30px; width: 960px; height: 700px; left: 0px; top: 0px;"><div class="sl-block-content" style="z-index: 11;"><iframe webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" sandbox="allow-forms allow-scripts allow-popups allow-same-origin allow-pointer-lock" data-src="https://www.youtube.com/embed/uQDvEVCIUdQ?enablejsapi=1" data-autoplay=""></iframe></div></div></section><section data-id="dd6db28186e683010f6c6f1a99c900cf"><div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 190px; height: auto;" data-block-id="8e18404bce576fb60670cdacc2cd2f81"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Contribute by Posting a Patch</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 264px; height: auto;" data-block-id="f1c594ccf39584feb16b4aefd0c6bf11"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text">
+<ul>
+	<li>Read <a href="https://www.drupal.org/patch/submit" target="_blank">Submitting Patches</a>
+</li>
+	<li>Follow code standards</li>
+	<li>Run tests</li>
+	<li>Upload as "Needs review" to issue</li>
+	<li><strong>Follow up as needed</strong></li>
+</ul>
+</div></div></section><section data-id="9d1c43570add1959c76d3fd792b1f0d8" data-background-image="img/3148892-patch-1.png" data-background-size="contain"></section><section data-id="76ec5569f67f8d60f019792dfc6235d3" data-background-image="img/3148893-patch-2.png" data-background-size="contain"></section><section data-id="468c5c05ff1fc18bfe260da2e5e1b5d3"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 0px; height: auto;" data-block-id="bdf18f1a134bd605194661bba2582d5e"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Detour</h2>
+</div></div>
+<div class="sl-block" data-block-type="image" style="width: 960px; height: 622.03px; left: 0px; top: 78px;" data-block-id="74a27220cf4c9b69c7bf5258f1c48989"><div class="sl-block-content"><img style="" data-natural-width="1389" data-natural-height="900" data-src="img/3147786-facets.png"></div></div></section><section data-id="da15600e462e73380a0572a7fee72e42"><div class="sl-block" data-block-type="image" data-block-id="af148532db8bc6f06f76e0f87905dd92" style="min-width: 30px; min-height: 30px; width: 219.722px; height: 350px; left: 50px; top: 0px;"><div class="sl-block-content" style="z-index: 11;"><img style="" data-natural-width="565" data-natural-height="900" data-src="img/3147802-facets-1.png"></div></div>
+<div class="sl-block" data-block-type="image" data-block-id="d8433ed20366ac5206d495719a343a31" style="min-width: 30px; min-height: 30px; width: 219.722px; height: 350px; left: 50px; top: 350px;"><div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="565" data-natural-height="900" data-src="img/3147801-facets-2.png"></div></div>
+<div class="sl-block" data-block-type="image" data-block-id="b9db8d1660260c37df7cd87daaaaa53e" style="min-width: 30px; min-height: 30px; width: 219.722px; height: 350px; left: 327px; top: 0px;"><div class="sl-block-content" style="z-index: 13;"><img data-natural-width="565" data-natural-height="900" style="" data-src="img/3147803-facets-3.png"></div></div>
+<div class="sl-block" data-block-type="image" data-block-id="8cb6ee1bbdcdb6b485fd21e698800cd6" style="min-width: 30px; min-height: 30px; width: 219.722px; height: 350px; left: 327px; top: 350px;"><div class="sl-block-content" style="z-index: 14;"><img style="" data-natural-width="565" data-natural-height="900" data-src="img/3147804-facets-4.png"></div></div>
+<div class="sl-block" data-block-type="image" data-block-id="485b69a5d1f5209ccdda9cf941bfa419" style="min-width: 30px; min-height: 30px; width: 219.722px; height: 350px; left: 610px; top: 0px;"><div class="sl-block-content" style="z-index: 15;"><img style="" data-natural-width="565" data-natural-height="900" data-src="img/3147805-facets-5.png"></div></div>
+<div class="sl-block" data-block-type="image" data-block-id="82f8b505902ad7c39c499c2b8764f99c" style="min-width: 30px; min-height: 30px; width: 219.722px; height: 350px; left: 610px; top: 350px;"><div class="sl-block-content" style="z-index: 16;"><img data-natural-width="565" data-natural-height="900" style="" data-src="img/3147807-facets-6.png"></div></div></section><section data-id="afa47e3bf0a7d8e26ae298395a6d5543" data-background-image="img/3147799-facets-7.png" data-background-size="contain"></section><section data-id="636b5256119590285da615b4692f24bf"><div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 190px; height: auto;" data-block-id="c3bcf353ec4ffcf8e6a1c82876108a4b"><div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text">
+<h2>Resources</h2>
+</div></div>
+<div class="sl-block" data-block-type="text" style="width: 800px; left: 80px; top: 264px; height: auto;" data-block-id="fa0f290d820303c8a55efed919b24917"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text">
+<ul>
+	<li><a href="http://juampynr.github.io/debugging-drupal8" target="_blank">Debugging Drupal 8</a></li>
+	<li><a href="https://2016.texascamp.org/sessions/debugging-techniques-drupal-and-other-web-applications" target="_blank">Debugging Techniques</a></li>
+	<li>Drupal.org Documenation</li>
+</ul>
+</div></div></section><section data-id="673bdef8bfed1724bbb5f61b2ff7efad"><div class="sl-block" data-block-type="image" data-block-id="e1832a6f27984023ba8f28f4ab466f46" style="min-width: 30px; min-height: 30px; width: 960px; height: 422.4px; left: 0px; top: 278px;"><div class="sl-block-content" style="z-index: 11; border-width: 1px;"><img style="" data-natural-width="1600" data-natural-height="704" data-src="img/3141759-brandon.png"></div></div>
+<div class="sl-block" data-block-type="text" data-block-id="4e6f55ada72f1bce9cceae647ba8c0a1" style="height: auto; min-width: 30px; min-height: 30px; width: 480px; left: 0px; top: 156px;"><div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12;">
+<p style="text-align:left"><span style="font-size:1.6em"><strong>Brandon Williams</strong></span></p>
+
+<p style="text-align:left"><a href="https://twitter.com/rocketeerbkw" target="_blank">@rocketeerbkw</a></p>
+</div></div>
+<div class="sl-block" data-block-type="image" data-block-id="feb36b1ed2bbb5ec063d5ca9a014ab56" style="min-width: 30px; min-height: 30px; width: 400px; height: 226.087px; left: 560px; top: 0px;"><div class="sl-block-content" style="z-index: 13;"><img data-natural-width="1150" data-natural-height="650" style="" data-src="img/3141774-amazee-labs-logo-black.png"></div></div></section></section>
+			</div>
+		</div>
+
+		<script>
+			var SLConfig = {"deck": {"id":832088,"slug":"the-little-issue-that-could_debugging-and-contributing-patches-on-drupal.org","title":"The Little Issue that Could: Debugging and Contributing Patches on Drupal.org","description":"","visibility":"self","published_at":"2016-10-19T01:56:19.207Z","sanitize_messages":null,"thumbnail_url":"https://s3.amazonaws.com/media-p.slid.es/thumbnails/18e028d9bd35cce83e60d45f0066d1bb/thumb.jpg","view_count":2,"user":{"id":244,"username":"rocketeerbkw","name":null,"description":null,"thumbnail_url":"https://www.gravatar.com/avatar/09b46668f5a40c3ee4735bcb197280f5?s=140\u0026d=https%3A%2F%2Fs3.amazonaws.com%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png","pro":true,"team_id":null,"settings":{"id":49042,"present_controls":true,"present_upsizing":true,"present_notes":true}},"background_transition":"slide","transition":"slide","theme_id":null,"theme_font":"opensans","theme_color":"sky-blue","auto_slide_interval":0,"comments_enabled":false,"forking_enabled":false,"rolling_links":false,"center":false,"should_loop":false,"share_notes":false,"slide_number":false,"rtl":false,"version":2,"collaborative":true,"deck_user_editor_limit":1,"data_updated_at":1477168063298,"font_typekit":null,"font_google":null,"notes":{"67985e9b113e2fa148db6516123f710f":"This is my favorite example.\n\nMost of use download the latest stable release, without checking how up to date it may be. Even drush downloads the latest stable release by default.\n\nThis is normal, you probably shouldn't always download the dev version. In many cases the dev version won't be in a broken state, it's just not as tested as stable.","c78b7c2663e943321d9e4d04580e4c3d":"We're going to follow the process of this bug I found in the File Entity module.\n\nExplain what File Entity does.\nExplain the bug.","1fadbd420d0c0dc5406b925eedecf31e":"Explain what the issue queue is","dc7e2109aac0033ce27b4536cbb4ec4b":"Reproducable steps also means the smallest set of modules that breaks.\n\nIf you do this, God bless you.","72243c9c9b457b14e0e4e95598db935f":"This was hard to describe, so I attached a video","a2e17b22eec3829ac72a659b18699ca2":"What's happening here?\n\nWhen you click edit, we get a popup. And then when you click the \"add a link\" button, you get another popup.\n\nAnytime you're page changes, and there isn't a full page refresh, javascript is happening.","4ff96058bedbcc235488ed87735c7c62":"Somethings this is easy.\n\nBackend: PHP warnings or errors, most things in the recent log messages\n\nFrontend: Styling problems, overlapping text, wrong colors. Javascript warnings or errors, broken animations","b21165a7dbb97e4130777f9170b3f8a1":"This our first debugging tool: Web Developer Tools.\n\nIt's available in all the modern browsers. It has many tools to assist you in all your web development tasks. We're only going cover a small subset.\n\nThis is the console tab, it's lets you do javascript stuff.","28ec2506b3ef55c2184ca8fea7ae2eb7":"The first thing I notice is a reference to jQuery.ui. This is a third party framework, odds are that's not broken, because popups do work, just this specific one is broken.\n\nBut there are quite a few javascript files that are part of Drupal core, let's look at those.","c38685a74f70c4d6db3c4e7a108f1451":"None of this JS code is creating or opening popups. It's just acting on existing popups.","eabdccfadb801bfeadcf2915495acbe5":"Most of this looks normal to me. At least, I don't see anything that's obviously wrong. I don't really know what's happening here at this point, I'm just looking for keywords and patterns.\n\nOne thing that sticks out a little bit is the hardcoded ID and element on lines 5 and 9. You don't see that very often except tests. So I'm gonna keep this in the back of my mind.","dfad088227c6f4af004df3bbfde74c7a":"Did you notice that there weren't any comments? I hid them on purpose to make a point. Here's the same code with comments. I've highlighted the part that finally clued me into what the problem probably was.\n\nThe author went to the trouble to specifically mention non-modal dialogs, implying that modal dialogs do not share the same behavior. I reasoned that there cannot be more than one modal dialog open at a time. This ties back into the hardcoded ID and element.","b938435872a7e0a1e004ea321005af32":"If we continue reading this file we come across this block of code.\n\nThe comment makes it clear that this is the thing we've been looking for. This is what opens the popups.\n\nWe're still in keyword search mode, so have you noticed that everything we've searched for so far has included references to AJAX?\n\nIs our bug using AJAX?","17ceee4fbd1cff619f0bf82e07a71b1a":"Explain the network tab a bit.","005282c4ec611c0cacf63e0f1b277f16":"It looks like file_entity is using modals.\n\nAt this point the theory is very clear in my head. The bug is that both file entity and ckeditor use modals for their popups. But modals only allow one popup at a time. That's why the link popup \"hides\" the file entity popup.","6189fd3e51989af784d830fb87cc0a9d":"Here we can see two things: The Modal Dialog is very small about of code. It inherits from Dialog and just passes a hardcoded selector. That should look familiar to you.","dd6db28186e683010f6c6f1a99c900cf":"Easiest way to create a patch is with Git. You'll need clone the module repository somehow. You can use drush, composer, or just do it manually. Be careful not to overwrite all the fixes you just made!\n\nThere are tools like phpcs for code standards\n\nUse drupal.org QA infrastructure for tests","468c5c05ff1fc18bfe260da2e5e1b5d3":"The issue I built my talk around hasn't been reviewed or fixed yet. I decided not to change the talk because I put a lot of work into it already, and to show that this is normal.\n\nSo let's talk about another issue that has had more activity.","ea070b1f154ce4da4c1a215c891ce54b":"This is where most people quit, unfortunately.","0897d249b33050e0d0f39907c6934758":"Beginner level, still time to go somewhere else.","b34855ff28d2f703815a9e1004d2c7dd":"Use a lot of keywords, Pick the -dev branches for versions first.\n\nCheck for close issues!"}}};
+			SLConfig.current_user = {
+				name: "",
+				username: "rocketeerbkw",
+				pro: true
+			};
+
+
+			// Use the local font path
+			SLConfig.fonts_url = 'lib/fonts/';
+		</script>
+
+		<script src="lib/head.min.js"></script>
+		<script src="lib/reveal.min.js"></script>
+		<script src="lib/offline.js"></script>
+		<script>
+			// Make Slides speaker notes available in the reveal.js speaker view
+			if( SLConfig.deck.notes ) {
+				[].forEach.call( document.querySelectorAll( '.reveal .slides section' ), function( slide ) {
+
+					var value = SLConfig.deck.notes[ slide.getAttribute( 'data-id' ) ];
+					if( value && typeof value === 'string' ) {
+						slide.setAttribute( 'data-notes', value );
+					}
+
+				} );
+			}
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				mouseWheel: false,
+				showNotes: SLConfig.deck.share_notes,
+				slideNumber: SLConfig.deck.slide_number,
+
+				autoSlide: SLConfig.deck.auto_slide_interval || 0,
+				autoSlideStoppable: true,
+
+				rolling_links: SLConfig.deck.rolling_links || true,
+				center: SLConfig.deck.center || false,
+				loop: SLConfig.deck.should_loop || false,
+				rtl: SLConfig.deck.rtl || false,
+
+				transition: SLConfig.deck.transition,
+				backgroundTransition: SLConfig.deck.background_transition,
+
+				dependencies: [
+					{ src: 'lib/reveal-plugins/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/highlight/highlight.js', async: true, callback: function() { hljs.initHighlighting(); hljs.initHighlightingOnLoad(); } },
+					{ src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+		</script>
+
+
+
+	</body>
+</html>
